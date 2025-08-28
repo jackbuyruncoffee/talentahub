@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentaHub - Platform Pencari Kerja Terdepan di Indonesia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --dark-bg: #1a1a2e;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: #2d3748 !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #667eea !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--primary-gradient);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        .btn-gradient {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+            color: white;
+        }
+        
+        .btn-gradient-secondary {
+            background: var(--secondary-gradient);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+        }
+        
+        .btn-gradient-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.6);
+            color: white;
+        }
+        
+        .btn-outline-gradient {
+            background: transparent;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            color: #667eea;
+            font-weight: 600;
+            padding: 10px 28px;
+            border-radius: 50px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50px;
+            padding: 2px;
+            background: var(--primary-gradient);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+        }
+        
+        .btn-outline-gradient:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 50%, rgba(240, 147, 251, 0.9) 100%), 
+                        url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            margin-top: 3rem;
+        }
+        
+        .search-input {
+            border: none;
+            border-radius: 15px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            background: white;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-element:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .floating-element:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        .floating-element:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            top: 40%;
+            right: 30%;
+            animation-delay: 1s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: white;
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        /* Features Section */
+        .features-section {
+            background: var(--light-bg);
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .feature-icon.primary {
+            background: var(--primary-gradient);
+        }
+        
+        .feature-icon.secondary {
+            background: var(--secondary-gradient);
+        }
+        
+        .feature-icon.success {
+            background: var(--success-gradient);
+        }
+        
+        .feature-icon.warning {
+            background: var(--warning-gradient);
+            color: #8b5a2b;
+        }
+        
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .feature-description {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+        
+        /* Jobs Section */
+        .jobs-section {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .job-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            height: 100%;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+        
+        .company-name {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .job-tag {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .job-salary {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        
+        .job-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        /* Companies Section */
+        .companies-section {
+            background: var(--light-bg);
+            padding: 80px 0;
+        }
+        
+        .company-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .company-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+            cursor: pointer;
+        }
+        
+        .job-opening {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .job-opening:last-child {
+            border-bottom: none;
+        }
+        
+        .company-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+        
+        .company-placeholder {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 15px;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 100px 0;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="10" cy="90" r="1" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn-white {
+            background: white;
+            color: #667eea;
+            border: none;
+            font-weight: 600;
+            padding: 15px 40px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
+            color: #5a67d8;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .footer-description {
+            color: #a0aec0;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .footer-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-link {
+            color: #a0aec0;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(102, 126, 234, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #2d3748;
+            margin-top: 40px;
+            padding-top: 30px;
+            text-align: center;
+            color: #a0aec0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .search-box {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .feature-card {
+                padding: 30px 20px;
+            }
+            
+            .job-card {
+                padding: 25px;
+            }
+        }
+        
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .counter {
+            font-size: 3rem;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-briefcase me-2"></i>TalentaHub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#jobs">Lowongan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#companies">Perusahaan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about" onclick="showAboutModal()">Tentang</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <button class="btn btn-outline-gradient" onclick="showLoginModal()">
+                            <i class="fas fa-sign-in-alt me-2"></i>Masuk
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-gradient" onclick="goToRegistration()">
+                            <i class="fas fa-user-plus me-2"></i>Daftar
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content fade-in-up">
+                        <h1 class="hero-title">
+                            Temukan Karir <br>
+                            <span style="background: linear-gradient(45deg, #ffd700, #ffed4e); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Impian Anda</span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            Platform pencari kerja terdepan di Indonesia yang menghubungkan talenta terbaik dengan perusahaan impian. Mulai perjalanan karir Anda hari ini!
+                        </p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <button class="btn btn-white btn-lg" onclick="goToRegistration()">
+                                <i class="fas fa-rocket me-2"></i>Mulai Sekarang
+                            </button>
+                            <button class="btn btn-outline-gradient btn-lg" onclick="document.getElementById('jobs').scrollIntoView({behavior: 'smooth'})">
+                                <i class="fas fa-search me-2"></i>Cari Lowongan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="search-box fade-in-up">
+                        <h4 class="text-center mb-4" style="color: #2d3748;">
+                            <i class="fas fa-search me-2" style="color: #667eea;"></i>
+                            Cari Pekerjaan Impian
+                        </h4>
+                        <form onsubmit="searchJobs(event)">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control search-input" id="jobTitle" placeholder="Posisi atau kata kunci">
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control search-input" id="jobLocation">
+                                        <option value="">Semua Lokasi</option>
+                                        <option value="Jakarta">Jakarta</option>
+                                        <option value="Bandung">Bandung</option>
+                                        <option value="Surabaya">Surabaya</option>
+                                        <option value="Yogyakarta">Yogyakarta</option>
+                                        <option value="Bali">Bali</option>
+                                        <option value="Remote">Remote</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control search-input" id="jobCategory">
+                                        <option value="">Semua Kategori</option>
+                                        <option value="Technology">Technology</option>
+                                        <option value="Marketing">Marketing</option>
+                                        <option value="Finance">Finance</option>
+                                        <option value="Design">Design</option>
+                                        <option value="Sales">Sales</option>
+                                        <option value="HR">Human Resources</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control search-input" id="jobType">
+                                        <option value="">Semua Tipe</option>
+                                        <option value="Full-time">Full-time</option>
+                                        <option value="Part-time">Part-time</option>
+                                        <option value="Contract">Contract</option>
+                                        <option value="Freelance">Freelance</option>
+                                        <option value="Internship">Internship</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-gradient w-100 btn-lg">
+                                        <i class="fas fa-search me-2"></i>Cari Sekarang
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-card fade-in-up">
+                        <div class="stat-number counter" data-target="15000">0</div>
+                        <div class="stat-label">Lowongan Aktif</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-card fade-in-up">
+                        <div class="stat-number counter" data-target="50000">0</div>
+                        <div class="stat-label">Pencari Kerja</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-card fade-in-up">
+                        <div class="stat-number counter" data-target="2500">0</div>
+                        <div class="stat-label">Perusahaan</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-card fade-in-up">
+                        <div class="stat-number counter" data-target="95">0</div>
+                        <div class="stat-label">% Tingkat Kepuasan</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title fade-in-up">Mengapa Memilih TalentaHub?</h2>
+                    <p class="section-subtitle fade-in-up">
+                        Kami menyediakan platform terlengkap untuk membantu Anda menemukan pekerjaan impian dengan mudah dan efisien
+                    </p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card fade-in-up">
+                        <div class="feature-icon primary">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h5 class="feature-title">Pencarian Cerdas</h5>
+                        <p class="feature-description">
+                            Algoritma AI yang membantu mencocokkan profil Anda dengan lowongan yang paling sesuai
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card fade-in-up">
+                        <div class="feature-icon secondary">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5 class="feature-title">Keamanan Terjamin</h5>
+                        <p class="feature-description">
+                            Data pribadi Anda dilindungi dengan enkripsi tingkat enterprise dan standar keamanan internasional
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card fade-in-up">
+                        <div class="feature-icon success">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5 class="feature-title">Jaringan Luas</h5>
+                        <p class="feature-description">
+                            Terhubung dengan ribuan perusahaan terpercaya dari startup hingga korporasi multinasional
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card fade-in-up">
+                        <div class="feature-icon warning">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="feature-title">Analisis Karir</h5>
+                        <p class="feature-description">
+                            Dapatkan insight mendalam tentang tren industri dan rekomendasi pengembangan karir
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jobs Section -->
+    <section id="jobs" class="jobs-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title fade-in-up">Lowongan Terbaru</h2>
+                    <p class="section-subtitle fade-in-up">
+                        Temukan peluang karir terbaik dari perusahaan-perusahaan terpercaya
+                    </p>
+                </div>
+            </div>
+            <div class="row g-4" id="jobsContainer">
+                <!-- Jobs will be loaded here -->
+            </div>
+            <div class="text-center mt-5">
+                <button class="btn btn-gradient btn-lg" onclick="loadMoreJobs()">
+                    <i class="fas fa-plus me-2"></i>Lihat Lebih Banyak
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companies Section -->
+    <section id="companies" class="companies-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title fade-in-up">Perusahaan Terpercaya</h2>
+                    <p class="section-subtitle fade-in-up">
+                        Bergabunglah dengan ribuan profesional yang telah menemukan karir impian mereka
+                    </p>
+                </div>
+            </div>
+            <div class="company-grid">
+                <div class="company-card fade-in-up" onclick="openCompanyJobs('gojek')">
+                    <div class="company-placeholder">GO</div>
+                    <h6>Gojek</h6>
+                    <small class="text-muted">Technology</small>
+                    <div class="mt-3">
+                        <div class="job-opening">
+                            <strong>Senior Software Engineer</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="job-opening mt-2">
+                            <strong>Product Manager</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="text-primary small mt-2">
+                            <i class="fas fa-briefcase me-1"></i>15+ lowongan tersedia
+                        </div>
+                    </div>
+                </div>
+                <div class="company-card fade-in-up" onclick="openCompanyJobs('tokopedia')">
+                    <div class="company-placeholder">TK</div>
+                    <h6>Tokopedia</h6>
+                    <small class="text-muted">E-commerce</small>
+                    <div class="mt-3">
+                        <div class="job-opening">
+                            <strong>Frontend Developer</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="job-opening mt-2">
+                            <strong>Data Scientist</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="text-primary small mt-2">
+                            <i class="fas fa-briefcase me-1"></i>25+ lowongan tersedia
+                        </div>
+                    </div>
+                </div>
+                <div class="company-card fade-in-up" onclick="openCompanyJobs('bukalapak')">
+                    <div class="company-placeholder">BL</div>
+                    <h6>Bukalapak</h6>
+                    <small class="text-muted">E-commerce</small>
+                    <div class="mt-3">
+                        <div class="job-opening">
+                            <strong>Backend Engineer</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="job-opening mt-2">
+                            <strong>UX Designer</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="text-primary small mt-2">
+                            <i class="fas fa-briefcase me-1"></i>12+ lowongan tersedia
+                        </div>
+                    </div>
+                </div>
+                <div class="company-card fade-in-up" onclick="openCompanyJobs('traveloka')">
+                    <div class="company-placeholder">TR</div>
+                    <h6>Traveloka</h6>
+                    <small class="text-muted">Travel</small>
+                    <div class="mt-3">
+                        <div class="job-opening">
+                            <strong>Mobile Developer</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="job-opening mt-2">
+                            <strong>Business Analyst</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="text-primary small mt-2">
+                            <i class="fas fa-briefcase me-1"></i>18+ lowongan tersedia
+                        </div>
+                    </div>
+                </div>
+                <div class="company-card fade-in-up" onclick="openCompanyJobs('shopee')">
+                    <div class="company-placeholder">SH</div>
+                    <h6>Shopee</h6>
+                    <small class="text-muted">E-commerce</small>
+                    <div class="mt-3">
+                        <div class="job-opening">
+                            <strong>Software Engineer</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="job-opening mt-2">
+                            <strong>Marketing Manager</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="text-primary small mt-2">
+                            <i class="fas fa-briefcase me-1"></i>30+ lowongan tersedia
+                        </div>
+                    </div>
+                </div>
+                <div class="company-card fade-in-up" onclick="openCompanyJobs('grab')">
+                    <div class="company-placeholder">GR</div>
+                    <h6>Grab</h6>
+                    <small class="text-muted">Technology</small>
+                    <div class="mt-3">
+                        <div class="job-opening">
+                            <strong>DevOps Engineer</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="job-opening mt-2">
+                            <strong>Growth Manager</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="text-primary small mt-2">
+                            <i class="fas fa-briefcase me-1"></i>22+ lowongan tersedia
+                        </div>
+                    </div>
+                </div>
+                <div class="company-card fade-in-up" onclick="openCompanyJobs('bca')">
+                    <div class="company-placeholder">BC</div>
+                    <h6>Bank BCA</h6>
+                    <small class="text-muted">Banking</small>
+                    <div class="mt-3">
+                        <div class="job-opening">
+                            <strong>IT Analyst</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="job-opening mt-2">
+                            <strong>Risk Management</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="text-primary small mt-2">
+                            <i class="fas fa-briefcase me-1"></i>8+ lowongan tersedia
+                        </div>
+                    </div>
+                </div>
+                <div class="company-card fade-in-up" onclick="openCompanyJobs('unilever')">
+                    <div class="company-placeholder">UN</div>
+                    <h6>Unilever</h6>
+                    <small class="text-muted">FMCG</small>
+                    <div class="mt-3">
+                        <div class="job-opening">
+                            <strong>Brand Manager</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="job-opening mt-2">
+                            <strong>Supply Chain Analyst</strong>
+                            <div class="text-muted small">Jakarta • Full-time</div>
+                        </div>
+                        <div class="text-primary small mt-2">
+                            <i class="fas fa-briefcase me-1"></i>10+ lowongan tersedia
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title fade-in-up">Siap Memulai Perjalanan Karir Anda?</h2>
+                <p class="cta-subtitle fade-in-up">
+                    Bergabunglah dengan ribuan profesional yang telah menemukan pekerjaan impian mereka di TalentaHub
+                </p>
+                <div class="d-flex flex-wrap justify-content-center gap-3 fade-in-up">
+                    <button class="btn btn-white btn-lg" onclick="goToRegistration()">
+                        <i class="fas fa-user-plus me-2"></i>Daftar Gratis
+                    </button>
+                    <button class="btn btn-outline-gradient btn-lg" style="border-color: white; color: white;" onclick="showLoginModal()">
+                        <i class="fas fa-sign-in-alt me-2"></i>Masuk Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-brand">
+                        <i class="fas fa-briefcase me-2"></i>TalentaHub
+                    </div>
+                    <p class="footer-description">
+                        Platform pencari kerja terdepan di Indonesia yang menghubungkan talenta terbaik dengan perusahaan impian. Temukan karir yang tepat untuk masa depan cerah Anda.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" onclick="openSocialMedia('facebook')" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" onclick="openSocialMedia('twitter')" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" onclick="openSocialMedia('instagram')" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" onclick="openSocialMedia('linkedin')" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="footer-title">Pencari Kerja</h6>
+                    <a href="#jobs" class="footer-link">Cari Lowongan</a>
+                    <a href="#" class="footer-link" onclick="showUploadCVModal()">Upload CV</a>
+                    <a href="#" class="footer-link" onclick="showCareerTipsModal()">Tips Karir</a>
+                    <a href="#" class="footer-link" onclick="showSalaryGuideModal()">Salary Guide</a>
+                    <a href="#" class="footer-link" onclick="showInterviewTipsModal()">Interview Tips</a>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="footer-title">Perusahaan</h6>
+                    <a href="#" class="footer-link" onclick="showPostJobModal()">Post Lowongan</a>
+                    <a href="#" class="footer-link" onclick="showFindCandidatesModal()">Cari Kandidat</a>
+                    <a href="#" class="footer-link" onclick="showPricingModal()">Pricing</a>
+                    <a href="#" class="footer-link" onclick="showSuccessStoriesModal()">Success Stories</a>
+                    <a href="#" class="footer-link" onclick="showEmployerBrandingModal()">Employer Branding</a>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="footer-title">Tentang</h6>
+                    <a href="#" class="footer-link" onclick="showAboutModal()">Tentang Kami</a>
+                    <a href="#" class="footer-link" onclick="showCareersModal()">Karir</a>
+                    <a href="#" class="footer-link" onclick="showPressModal()">Press</a>
+                    <a href="#" class="footer-link" onclick="showBlogModal()">Blog</a>
+                    <a href="#" class="footer-link" onclick="showContactModal()">Kontak</a>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="footer-title">Bantuan</h6>
+                    <a href="#" class="footer-link" onclick="showFAQModal()">FAQ</a>
+                    <a href="#" class="footer-link" onclick="showSupportModal()">Support</a>
+                    <a href="#" class="footer-link" onclick="showPrivacyModal()">Privacy Policy</a>
+                    <a href="#" class="footer-link" onclick="showTermsModal()">Terms of Service</a>
+                    <a href="#" class="footer-link" onclick="showSitemapModal()">Sitemap</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TalentaHub. All rights reserved. Made with ❤️ in Indonesia</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none;">
+                <div class="modal-header" style="border: none; padding: 30px 30px 0;">
+                    <h5 class="modal-title" style="font-weight: 600; color: #2d3748;">
+                        <i class="fas fa-sign-in-alt me-2" style="color: #667eea;"></i>
+                        Masuk ke TalentaHub
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" style="padding: 20px 30px 30px;">
+                    <form onsubmit="handleLogin(event)">
+                        <div class="mb-3">
+                            <label class="form-label" style="font-weight: 500;">Email</label>
+                            <input type="email" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="nama@email.com" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" style="font-weight: 500;">Password</label>
+                            <input type="password" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="Password Anda" required>
+                        </div>
+                        <button type="submit" class="btn btn-gradient w-100 mb-3">
+                            <i class="fas fa-sign-in-alt me-2"></i>Masuk
+                        </button>
+                        <div class="text-center">
+                            <a href="#" onclick="showForgotPasswordModal()" style="color: #667eea; text-decoration: none;">Lupa Password?</a>
+                        </div>
+                        <hr style="margin: 20px 0;">
+                        <div class="text-center">
+                            <p style="color: #6c757d; margin-bottom: 15px;">Belum punya akun?</p>
+                            <button type="button" class="btn btn-outline-gradient w-100" onclick="goToRegistration()">
+                                <i class="fas fa-user-plus me-2"></i>Daftar Sekarang
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generic Modal Template -->
+    <div class="modal fade" id="genericModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: 20px; border: none;">
+                <div class="modal-header" style="border: none; padding: 30px 30px 0;">
+                    <h5 class="modal-title" id="genericModalTitle" style="font-weight: 600; color: #2d3748;"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="genericModalBody" style="padding: 20px 30px 30px;">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Real job data based on company placeholders
+        const jobsData = [
+            {
+                id: 1,
+                title: "Senior Software Engineer",
+                company: "Gojek",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 25-40 juta",
+                description: "Join our engineering team to build scalable microservices and APIs that serve millions of users across Southeast Asia. Work with cutting-edge technologies in a fast-paced environment.",
+                tags: ["Go", "Microservices", "Kubernetes", "AWS"],
+                logo: "GO",
+                applyUrl: "https://www.gojek.com/careers/"
+            },
+            {
+                id: 2,
+                title: "Frontend Developer",
+                company: "Tokopedia",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 18-30 juta",
+                description: "Develop and maintain user-facing features for Indonesia's leading e-commerce platform. Work with React, TypeScript, and modern frontend technologies.",
+                tags: ["React", "TypeScript", "Next.js", "GraphQL"],
+                logo: "TK",
+                applyUrl: "https://www.tokopedia.com/careers/"
+            },
+            {
+                id: 3,
+                title: "Data Scientist",
+                company: "Tokopedia",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 22-35 juta",
+                description: "Analyze large datasets to drive business insights and build machine learning models for recommendation systems, fraud detection, and user behavior analysis.",
+                tags: ["Python", "Machine Learning", "TensorFlow", "SQL"],
+                logo: "TK",
+                applyUrl: "https://www.tokopedia.com/careers/"
+            },
+            {
+                id: 4,
+                title: "Product Manager",
+                company: "Gojek",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 30-50 juta",
+                description: "Lead product strategy and roadmap for our super app ecosystem. Collaborate with engineering, design, and business teams to deliver impactful features.",
+                tags: ["Product Strategy", "Agile", "Analytics", "User Research"],
+                logo: "GO",
+                applyUrl: "https://www.gojek.com/careers/"
+            },
+            {
+                id: 5,
+                title: "Backend Engineer",
+                company: "Bukalapak",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 20-32 juta",
+                description: "Build robust and scalable backend systems for e-commerce operations. Work with microservices architecture and cloud-native technologies.",
+                tags: ["Java", "Spring Boot", "Microservices", "PostgreSQL"],
+                logo: "BL",
+                applyUrl: "https://careers.bukalapak.com/"
+            },
+            {
+                id: 6,
+                title: "UX Designer",
+                company: "Bukalapak",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 15-25 juta",
+                description: "Design intuitive and engaging user experiences for millions of Indonesian users. Conduct user research and create design systems.",
+                tags: ["Figma", "User Research", "Prototyping", "Design Systems"],
+                logo: "BL",
+                applyUrl: "https://careers.bukalapak.com/"
+            },
+            {
+                id: 7,
+                title: "Mobile Developer",
+                company: "Traveloka",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 18-28 juta",
+                description: "Develop and maintain mobile applications for travel booking platform. Work with native iOS/Android or React Native technologies.",
+                tags: ["React Native", "iOS", "Android", "Mobile Development"],
+                logo: "TR",
+                applyUrl: "https://www.traveloka.com/en-id/careers"
+            },
+            {
+                id: 8,
+                title: "Business Analyst",
+                company: "Traveloka",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 16-24 juta",
+                description: "Analyze business processes and market trends in travel industry. Support strategic decision making with data-driven insights.",
+                tags: ["Business Analysis", "SQL", "Excel", "Market Research"],
+                logo: "TR",
+                applyUrl: "https://www.traveloka.com/en-id/careers"
+            },
+            {
+                id: 9,
+                title: "Software Engineer",
+                company: "Shopee",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 20-35 juta",
+                description: "Join our engineering team to build e-commerce solutions that serve millions of users. Work on high-traffic systems and innovative features.",
+                tags: ["Java", "Python", "Distributed Systems", "Redis"],
+                logo: "SH",
+                applyUrl: "https://careers.shopee.co.id/"
+            },
+            {
+                id: 10,
+                title: "Marketing Manager",
+                company: "Shopee",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 18-30 juta",
+                description: "Lead marketing campaigns and strategies for Southeast Asia's leading e-commerce platform. Drive user acquisition and engagement.",
+                tags: ["Digital Marketing", "Campaign Management", "Analytics", "Growth"],
+                logo: "SH",
+                applyUrl: "https://careers.shopee.co.id/"
+            },
+            {
+                id: 11,
+                title: "DevOps Engineer",
+                company: "Grab",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 22-38 juta",
+                description: "Manage cloud infrastructure and deployment pipelines for Southeast Asia's leading super app. Work with Kubernetes, AWS, and modern DevOps tools.",
+                tags: ["Kubernetes", "AWS", "Docker", "Terraform"],
+                logo: "GR",
+                applyUrl: "https://grab.careers/"
+            },
+            {
+                id: 12,
+                title: "Growth Manager",
+                company: "Grab",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 20-32 juta",
+                description: "Drive user growth and retention strategies across multiple verticals. Analyze user behavior and optimize conversion funnels.",
+                tags: ["Growth Hacking", "Analytics", "A/B Testing", "User Acquisition"],
+                logo: "GR",
+                applyUrl: "https://grab.careers/"
+            },
+            {
+                id: 13,
+                title: "IT Analyst",
+                company: "Bank BCA",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 12-20 juta",
+                description: "Support digital banking initiatives and analyze IT systems for Indonesia's leading private bank. Work on fintech solutions and core banking systems.",
+                tags: ["Banking Systems", "SQL", "System Analysis", "Fintech"],
+                logo: "BC",
+                applyUrl: "https://karir.bca.co.id/"
+            },
+            {
+                id: 14,
+                title: "Risk Management Specialist",
+                company: "Bank BCA",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 15-25 juta",
+                description: "Assess and manage financial risks for banking operations. Develop risk models and ensure regulatory compliance.",
+                tags: ["Risk Management", "Financial Analysis", "Compliance", "Banking"],
+                logo: "BC",
+                applyUrl: "https://karir.bca.co.id/"
+            },
+            {
+                id: 15,
+                title: "Brand Manager",
+                company: "Unilever",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 18-28 juta",
+                description: "Lead brand strategy and marketing campaigns for consumer goods products. Drive brand growth and market share in Indonesian market.",
+                tags: ["Brand Management", "Marketing Strategy", "Consumer Insights", "FMCG"],
+                logo: "UN",
+                applyUrl: "https://careers.unilever.com/en/indonesia"
+            },
+            {
+                id: 16,
+                title: "Supply Chain Analyst",
+                company: "Unilever",
+                location: "Jakarta",
+                type: "Full-time",
+                salary: "Rp 14-22 juta",
+                description: "Optimize supply chain operations and logistics for consumer goods distribution across Indonesia. Analyze demand patterns and inventory management.",
+                tags: ["Supply Chain", "Logistics", "Data Analysis", "Operations"],
+                logo: "UN",
+                applyUrl: "https://careers.unilever.com/en/indonesia"
+            }
+        ];
+
+        let displayedJobs = 3;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadJobs();
+            initializeAnimations();
+            initializeCounters();
+            initializeNavbar();
+        });
+
+        // Load jobs
+        function loadJobs() {
+            const container = document.getElementById('jobsContainer');
+            container.innerHTML = '';
+            
+            const jobsToShow = jobsData.slice(0, displayedJobs);
+            
+            jobsToShow.forEach(job => {
+                const jobCard = createJobCard(job);
+                container.appendChild(jobCard);
+            });
+        }
+
+        // Create job card
+        function createJobCard(job) {
+            const col = document.createElement('div');
+            col.className = 'col-lg-4 col-md-6';
+            
+            col.innerHTML = `
+                <div class="job-card fade-in-up">
+                    <div class="company-logo">${job.logo}</div>
+                    <h5 class="job-title">${job.title}</h5>
+                    <div class="company-name">${job.company}</div>
+                    <div class="job-meta">
+                        <span class="job-tag">
+                            <i class="fas fa-map-marker-alt me-1"></i>${job.location}
+                        </span>
+                        <span class="job-tag">
+                            <i class="fas fa-clock me-1"></i>${job.type}
+                        </span>
+                    </div>
+                    <div class="job-salary">
+                        <i class="fas fa-money-bill-wave me-2"></i>${job.salary}
+                    </div>
+                    <p class="job-description">${job.description}</p>
+                    <div class="job-meta mb-3">
+                        ${job.tags.map(tag => `<span class="job-tag">${tag}</span>`).join('')}
+                    </div>
+                    <button class="btn btn-gradient w-100" onclick="applyJob(${job.id})">
+                        <i class="fas fa-paper-plane me-2"></i>Lamar Sekarang
+                    </button>
+                </div>
+            `;
+            
+            return col;
+        }
+
+        // Load more jobs
+        function loadMoreJobs() {
+            displayedJobs = Math.min(displayedJobs + 3, jobsData.length);
+            loadJobs();
+            
+            if (displayedJobs >= jobsData.length) {
+                const button = document.querySelector('button[onclick="loadMoreJobs()"]');
+                button.style.display = 'none';
+            }
+        }
+
+        // Search jobs
+        function searchJobs(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('jobTitle').value.toLowerCase();
+            const location = document.getElementById('jobLocation').value;
+            const category = document.getElementById('jobCategory').value;
+            const type = document.getElementById('jobType').value;
+            
+            let filteredJobs = jobsData.filter(job => {
+                const matchTitle = !title || job.title.toLowerCase().includes(title) || 
+                                 job.description.toLowerCase().includes(title);
+                const matchLocation = !location || job.location === location;
+                const matchType = !type || job.type === type;
+                
+                return matchTitle && matchLocation && matchType;
+            });
+            
+            displaySearchResults(filteredJobs);
+        }
+
+        // Display search results
+        function displaySearchResults(jobs) {
+            const container = document.getElementById('jobsContainer');
+            container.innerHTML = '';
+            
+            if (jobs.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center">
+                        <div style="padding: 60px 20px;">
+                            <i class="fas fa-search fa-3x mb-3" style="color: #6c757d;"></i>
+                            <h4 style="color: #6c757d;">Tidak ada lowongan yang ditemukan</h4>
+                            <p style="color: #6c757d;">Coba ubah kriteria pencarian Anda</p>
+                            <button class="btn btn-gradient" onclick="resetSearch()">
+                                <i class="fas fa-refresh me-2"></i>Reset Pencarian
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            jobs.forEach(job => {
+                const jobCard = createJobCard(job);
+                container.appendChild(jobCard);
+            });
+            
+            // Hide load more button during search
+            const loadMoreBtn = document.querySelector('button[onclick="loadMoreJobs()"]');
+            loadMoreBtn.style.display = 'none';
+            
+            // Scroll to results
+            document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Reset search
+        function resetSearch() {
+            document.getElementById('jobTitle').value = '';
+            document.getElementById('jobLocation').value = '';
+            document.getElementById('jobCategory').value = '';
+            document.getElementById('jobType').value = '';
+            
+            displayedJobs = 3;
+            loadJobs();
+            
+            const loadMoreBtn = document.querySelector('button[onclick="loadMoreJobs()"]');
+            loadMoreBtn.style.display = 'inline-block';
+        }
+
+        // Apply for job
+        function applyJob(jobId) {
+            const job = jobsData.find(j => j.id === jobId);
+            
+            // Check if user is logged in (simulate)
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            
+            if (!isLoggedIn) {
+                showToast('Silakan login terlebih dahulu untuk melamar pekerjaan', 'warning');
+                setTimeout(() => {
+                    showLoginModal();
+                }, 1000);
+                return;
+            }
+            
+            // Show confirmation and redirect to actual job application
+            showToast(`Mengarahkan ke halaman lamaran ${job.company}...`, 'info');
+            setTimeout(() => {
+                window.open(job.applyUrl, '_blank');
+                showToast(`Silakan lengkapi aplikasi di website ${job.company}! 🎯`, 'success');
+            }, 1500);
+        }
+
+        // Navigation functions
+        function goToRegistration() {
+            // In a real app, this would navigate to registration page
+            showToast('Mengarahkan ke halaman registrasi...', 'info');
+            setTimeout(() => {
+                window.location.href = '#registration'; // This would be the actual registration URL
+            }, 1000);
+        }
+
+        function showLoginModal() {
+            const modal = new bootstrap.Modal(document.getElementById('loginModal'));
+            modal.show();
+        }
+
+        // Handle login
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            // Simulate login process
+            showToast('Sedang memproses login...', 'loading');
+            
+            setTimeout(() => {
+                localStorage.setItem('isLoggedIn', 'true');
+                hideLoadingToast();
+                showToast('Login berhasil! Selamat datang di TalentaHub! 🎉', 'success');
+                
+                const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                modal.hide();
+            }, 2000);
+        }
+
+        // Initialize animations
+        function initializeAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize counters
+        function initializeCounters() {
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200;
+            
+            const observerOptions = {
+                threshold: 0.5
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        const increment = target / speed;
+                        let current = 0;
+                        
+                        const updateCounter = () => {
+                            if (current < target) {
+                                current += increment;
+                                counter.textContent = Math.ceil(current).toLocaleString();
+                                setTimeout(updateCounter, 1);
+                            } else {
+                                counter.textContent = target.toLocaleString();
+                            }
+                        };
+                        
+                        updateCounter();
+                        observer.unobserve(counter);
+                    }
+                });
+            }, observerOptions);
+            
+            counters.forEach(counter => {
+                observer.observe(counter);
+            });
+        }
+
+        // Initialize navbar scroll effect
+        function initializeNavbar() {
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // Toast notification system
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast-notification ${type}`;
+            
+            let icon = 'fas fa-info-circle';
+            let bgColor = '#667eea';
+            
+            switch(type) {
+                case 'success':
+                    icon = 'fas fa-check-circle';
+                    bgColor = '#28a745';
+                    break;
+                case 'warning':
+                    icon = 'fas fa-exclamation-triangle';
+                    bgColor = '#ffc107';
+                    break;
+                case 'error':
+                    icon = 'fas fa-times-circle';
+                    bgColor = '#dc3545';
+                    break;
+                case 'loading':
+                    icon = 'fas fa-spinner fa-spin';
+                    bgColor = '#667eea';
+                    break;
+            }
+            
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${bgColor};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                z-index: 9999;
+                transform: translateX(400px);
+                transition: all 0.3s ease;
+                max-width: 350px;
+                font-weight: 500;
+            `;
+            
+            toast.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <i class="${icon}" style="margin-right: 10px;"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(0)';
+            }, 100);
+            
+            if (type !== 'loading') {
+                setTimeout(() => {
+                    toast.style.transform = 'translateX(400px)';
+                    setTimeout(() => {
+                        if (toast.parentElement) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }, 4000);
+            }
+        }
+
+        function hideLoadingToast() {
+            const loadingToast = document.querySelector('.toast-notification.loading');
+            if (loadingToast) {
+                loadingToast.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (loadingToast.parentElement) {
+                        loadingToast.remove();
+                    }
+                }, 300);
+            }
+        }
+
+        // Modal content data
+        const modalContents = {
+            about: {
+                title: '<i class="fas fa-info-circle me-2" style="color: #667eea;"></i>Tentang TalentaHub',
+                content: `
+                    <div class="text-center mb-4">
+                        <div style="width: 100px; height: 100px; background: var(--primary-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 2rem;">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h4 style="color: #2d3748; margin-bottom: 15px;">Platform Pencari Kerja Terdepan</h4>
+                    </div>
+                    <p style="color: #6c757d; line-height: 1.8; margin-bottom: 20px;">
+                        TalentaHub adalah platform pencari kerja terdepan di Indonesia yang menghubungkan talenta terbaik dengan perusahaan impian. Kami berkomitmen untuk membantu setiap individu menemukan karir yang sesuai dengan passion dan kemampuan mereka.
+                    </p>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle me-3" style="color: #28a745; font-size: 1.2rem;"></i>
+                                <span>15,000+ Lowongan Aktif</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle me-3" style="color: #28a745; font-size: 1.2rem;"></i>
+                                <span>2,500+ Perusahaan Terpercaya</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle me-3" style="color: #28a745; font-size: 1.2rem;"></i>
+                                <span>50,000+ Pencari Kerja</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle me-3" style="color: #28a745; font-size: 1.2rem;"></i>
+                                <span>95% Tingkat Kepuasan</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-gradient" onclick="goToRegistration()">
+                            <i class="fas fa-rocket me-2"></i>Bergabung Sekarang
+                        </button>
+                    </div>
+                `
+            },
+            uploadCV: {
+                title: '<i class="fas fa-file-upload me-2" style="color: #667eea;"></i>Upload CV',
+                content: `
+                    <div class="text-center mb-4">
+                        <div style="width: 80px; height: 80px; background: var(--success-gradient); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 1.8rem;">
+                            <i class="fas fa-file-upload"></i>
+                        </div>
+                    </div>
+                    <form onsubmit="handleCVUpload(event)">
+                        <div class="mb-3">
+                            <label class="form-label" style="font-weight: 500;">Pilih File CV (PDF, DOC, DOCX)</label>
+                            <input type="file" class="form-control" accept=".pdf,.doc,.docx" style="border-radius: 10px; padding: 12px 15px;" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" style="font-weight: 500;">Nama Lengkap</label>
+                            <input type="text" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="Masukkan nama lengkap" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" style="font-weight: 500;">Email</label>
+                            <input type="email" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="nama@email.com" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" style="font-weight: 500;">Posisi yang Diinginkan</label>
+                            <input type="text" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="Contoh: Frontend Developer" required>
+                        </div>
+                        <button type="submit" class="btn btn-gradient w-100">
+                            <i class="fas fa-upload me-2"></i>Upload CV
+                        </button>
+                    </form>
+                `
+            },
+            careerTips: {
+                title: '<i class="fas fa-lightbulb me-2" style="color: #667eea;"></i>Tips Karir',
+                content: `
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="d-flex align-items-start">
+                                <div style="width: 40px; height: 40px; background: var(--primary-gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 15px; flex-shrink: 0;">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div>
+                                    <h6 style="color: #2d3748; margin-bottom: 8px;">Persiapkan CV yang Menarik</h6>
+                                    <p style="color: #6c757d; margin-bottom: 0; line-height: 1.6;">Buat CV yang ringkas, relevan, dan mudah dibaca. Sertakan pengalaman yang sesuai dengan posisi yang dilamar.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-start">
+                                <div style="width: 40px; height: 40px; background: var(--secondary-gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 15px; flex-shrink: 0;">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div>
+                                    <h6 style="color: #2d3748; margin-bottom: 8px;">Riset Perusahaan</h6>
+                                    <p style="color: #6c757d; margin-bottom: 0; line-height: 1.6;">Pelajari budaya, nilai, dan produk perusahaan sebelum melamar atau interview.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-start">
+                                <div style="width: 40px; height: 40px; background: var(--success-gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 15px; flex-shrink: 0;">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div>
+                                    <h6 style="color: #2d3748; margin-bottom: 8px;">Kembangkan Soft Skills</h6>
+                                    <p style="color: #6c757d; margin-bottom: 0; line-height: 1.6;">Komunikasi, teamwork, dan problem-solving adalah keterampilan yang sangat dihargai oleh perusahaan.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-start">
+                                <div style="width: 40px; height: 40px; background: var(--warning-gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #8b5a2b; margin-right: 15px; flex-shrink: 0;">
+                                    <i class="fas fa-network-wired"></i>
+                                </div>
+                                <div>
+                                    <h6 style="color: #2d3748; margin-bottom: 8px;">Bangun Networking</h6>
+                                    <p style="color: #6c757d; margin-bottom: 0; line-height: 1.6;">Jaringan profesional yang kuat dapat membuka peluang karir yang tidak terduga.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            faq: {
+                title: '<i class="fas fa-question-circle me-2" style="color: #667eea;"></i>Frequently Asked Questions',
+                content: `
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item" style="border: 1px solid rgba(102, 126, 234, 0.2); border-radius: 10px; margin-bottom: 10px;">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" style="border-radius: 10px; font-weight: 500;">
+                                    Bagaimana cara mendaftar di TalentaHub?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body" style="color: #6c757d;">
+                                    Klik tombol "Daftar" di pojok kanan atas, isi formulir pendaftaran dengan data yang valid, dan verifikasi email Anda.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item" style="border: 1px solid rgba(102, 126, 234, 0.2); border-radius: 10px; margin-bottom: 10px;">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" style="border-radius: 10px; font-weight: 500;">
+                                    Apakah TalentaHub gratis?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body" style="color: #6c757d;">
+                                    Ya, TalentaHub gratis untuk pencari kerja. Anda dapat mencari lowongan, melamar pekerjaan, dan menggunakan semua fitur tanpa biaya.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item" style="border: 1px solid rgba(102, 126, 234, 0.2); border-radius: 10px; margin-bottom: 10px;">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" style="border-radius: 10px; font-weight: 500;">
+                                    Bagaimana cara melamar pekerjaan?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body" style="color: #6c757d;">
+                                    Setelah login, cari lowongan yang sesuai, klik "Lamar Sekarang", dan ikuti instruksi untuk mengirim lamaran Anda.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            contact: {
+                title: '<i class="fas fa-envelope me-2" style="color: #667eea;"></i>Hubungi Kami',
+                content: `
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="text-center p-3" style="background: rgba(102, 126, 234, 0.1); border-radius: 15px;">
+                                <i class="fas fa-phone fa-2x mb-3" style="color: #667eea;"></i>
+                                <h6 style="color: #2d3748;">Telepon</h6>
+                                <p style="color: #6c757d;">+62 21 1234 5678</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center p-3" style="background: rgba(102, 126, 234, 0.1); border-radius: 15px;">
+                                <i class="fas fa-envelope fa-2x mb-3" style="color: #667eea;"></i>
+                                <h6 style="color: #2d3748;">Email</h6>
+                                <p style="color: #6c757d;">info@talentahub.com</p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <form onsubmit="handleContactForm(event)">
+                                <div class="mb-3">
+                                    <label class="form-label" style="font-weight: 500;">Nama</label>
+                                    <input type="text" class="form-control" style="border-radius: 10px; padding: 12px 15px;" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" style="font-weight: 500;">Email</label>
+                                    <input type="email" class="form-control" style="border-radius: 10px; padding: 12px 15px;" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" style="font-weight: 500;">Subjek</label>
+                                    <input type="text" class="form-control" style="border-radius: 10px; padding: 12px 15px;" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label" style="font-weight: 500;">Pesan</label>
+                                    <textarea class="form-control" rows="4" style="border-radius: 10px; padding: 12px 15px;" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-gradient w-100">
+                                    <i class="fas fa-paper-plane me-2"></i>Kirim Pesan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        // Generic modal functions
+        function showGenericModal(type) {
+            const modal = new bootstrap.Modal(document.getElementById('genericModal'));
+            const content = modalContents[type];
+            
+            if (content) {
+                document.getElementById('genericModalTitle').innerHTML = content.title;
+                document.getElementById('genericModalBody').innerHTML = content.content;
+                modal.show();
+            }
+        }
+
+        // Specific modal functions
+        function showAboutModal() { showGenericModal('about'); }
+        function showUploadCVModal() { showGenericModal('uploadCV'); }
+        function showCareerTipsModal() { showGenericModal('careerTips'); }
+        function showFAQModal() { showGenericModal('faq'); }
+        function showContactModal() { showGenericModal('contact'); }
+
+        // Placeholder functions for other modals
+        function showSalaryGuideModal() {
+            showToast('Salary Guide akan segera tersedia! 📊', 'info');
+        }
+        function showInterviewTipsModal() {
+            showToast('Interview Tips akan segera tersedia! 💼', 'info');
+        }
+        function showPostJobModal() {
+            showToast('Fitur Post Lowongan untuk perusahaan akan segera tersedia! 🏢', 'info');
+        }
+        function showFindCandidatesModal() {
+            showToast('Fitur Cari Kandidat untuk perusahaan akan segera tersedia! 👥', 'info');
+        }
+        function showPricingModal() {
+            showToast('Informasi harga akan segera tersedia! 💰', 'info');
+        }
+        function showSuccessStoriesModal() {
+            showToast('Success Stories akan segera tersedia! ⭐', 'info');
+        }
+        function showEmployerBrandingModal() {
+            showToast('Employer Branding akan segera tersedia! 🎯', 'info');
+        }
+        function showCareersModal() {
+            showToast('Halaman karir TalentaHub akan segera tersedia! 🚀', 'info');
+        }
+        function showPressModal() {
+            showToast('Press release akan segera tersedia! 📰', 'info');
+        }
+        function showBlogModal() {
+            showToast('Blog TalentaHub akan segera tersedia! ✍️', 'info');
+        }
+        function showSupportModal() {
+            showToast('Pusat bantuan akan segera tersedia! 🆘', 'info');
+        }
+        function showPrivacyModal() {
+            showToast('Privacy Policy akan segera tersedia! 🔒', 'info');
+        }
+        function showTermsModal() {
+            showToast('Terms of Service akan segera tersedia! 📋', 'info');
+        }
+        function showSitemapModal() {
+            showToast('Sitemap akan segera tersedia! 🗺️', 'info');
+        }
+        function showForgotPasswordModal() {
+            showToast('Fitur reset password akan segera tersedia! 🔑', 'info');
+        }
+
+        // Social media function
+        function openSocialMedia(platform) {
+            const urls = {
+                facebook: 'https://facebook.com/talentahub',
+                twitter: 'https://twitter.com/talentahub',
+                instagram: 'https://instagram.com/talentahub',
+                linkedin: 'https://linkedin.com/company/talentahub'
+            };
+            
+            showToast(`Mengarahkan ke ${platform.charAt(0).toUpperCase() + platform.slice(1)} TalentaHub...`, 'info');
+            // In a real app, this would open the actual social media page
+            // window.open(urls[platform], '_blank');
+        }
+
+        // Form handlers
+        function handleCVUpload(event) {
+            event.preventDefault();
+            showToast('CV berhasil diupload! Tim HR akan meninjau dalam 24 jam. 📄', 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('genericModal'));
+            modal.hide();
+        }
+
+        function handleContactForm(event) {
+            event.preventDefault();
+            showToast('Pesan berhasil dikirim! Kami akan merespons dalam 24 jam. 📧', 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('genericModal'));
+            modal.hide();
+        }
+
+        // Company job links
+        const companyJobLinks = {
+            gojek: 'https://www.gojek.com/careers/',
+            tokopedia: 'https://www.tokopedia.com/careers/',
+            bukalapak: 'https://careers.bukalapak.com/',
+            traveloka: 'https://www.traveloka.com/en-id/careers',
+            shopee: 'https://careers.shopee.co.id/',
+            grab: 'https://grab.careers/',
+            bca: 'https://karir.bca.co.id/',
+            unilever: 'https://careers.unilever.com/en/indonesia'
+        };
+
+        // Open company jobs
+        function openCompanyJobs(company) {
+            const url = companyJobLinks[company];
+            if (url) {
+                showToast(`Mengarahkan ke halaman karir ${company.charAt(0).toUpperCase() + company.slice(1)}...`, 'info');
+                setTimeout(() => {
+                    window.open(url, '_blank');
+                }, 1000);
+            } else {
+                showToast('Link karir tidak tersedia saat ini', 'warning');
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#') && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97666846f0175c2e',t:'MTc1NjQxMTM1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
