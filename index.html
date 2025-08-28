@@ -728,14 +728,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#about" onclick="showAboutModal()">Tentang</a>
                     </li>
-                    <li class="nav-item me-3">
+                    <li class="nav-item me-2">
                         <button class="btn btn-outline-gradient" onclick="showLoginModal()">
                             <i class="fas fa-sign-in-alt me-2"></i>Masuk
                         </button>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item me-2">
                         <button class="btn btn-gradient" onclick="goToRegistration()">
                             <i class="fas fa-user-plus me-2"></i>Daftar
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-gradient-secondary" onclick="showCompanyRegistrationModal()">
+                            <i class="fas fa-building me-2"></i>Untuk Perusahaan
                         </button>
                     </li>
                 </ul>
@@ -1203,11 +1208,11 @@
                     <form onsubmit="handleLogin(event)">
                         <div class="mb-3">
                             <label class="form-label" style="font-weight: 500;">Email</label>
-                            <input type="email" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="nama@email.com" required>
+                            <input type="email" class="form-control" id="loginEmail" style="border-radius: 10px; padding: 12px 15px;" placeholder="nama@email.com" required>
                         </div>
                         <div class="mb-4">
                             <label class="form-label" style="font-weight: 500;">Password</label>
-                            <input type="password" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="Password Anda" required>
+                            <input type="password" class="form-control" id="loginPassword" style="border-radius: 10px; padding: 12px 15px;" placeholder="Password Anda" required>
                         </div>
                         <button type="submit" class="btn btn-gradient w-100 mb-3">
                             <i class="fas fa-sign-in-alt me-2"></i>Masuk
@@ -1223,6 +1228,501 @@
                             </button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div class="modal fade" id="registrationModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: 20px; border: none;">
+                <div class="modal-header" style="border: none; padding: 30px 30px 0;">
+                    <h5 class="modal-title" style="font-weight: 600; color: #2d3748;">
+                        <i class="fas fa-user-plus me-2" style="color: #667eea;"></i>
+                        Daftar di TalentaHub
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" style="padding: 20px 30px 30px;">
+                    <form onsubmit="handleRegistration(event)" id="registrationForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label" style="font-weight: 500;">Nama Depan *</label>
+                                <input type="text" class="form-control" id="firstName" style="border-radius: 10px; padding: 12px 15px;" placeholder="Nama depan" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" style="font-weight: 500;">Nama Belakang *</label>
+                                <input type="text" class="form-control" id="lastName" style="border-radius: 10px; padding: 12px 15px;" placeholder="Nama belakang" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" style="font-weight: 500;">Email *</label>
+                                <input type="email" class="form-control" id="regEmail" style="border-radius: 10px; padding: 12px 15px;" placeholder="nama@email.com" required>
+                                <div class="invalid-feedback" id="emailError"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" style="font-weight: 500;">Password *</label>
+                                <input type="password" class="form-control" id="regPassword" style="border-radius: 10px; padding: 12px 15px;" placeholder="Minimal 8 karakter" required minlength="8">
+                                <div class="invalid-feedback" id="passwordError"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" style="font-weight: 500;">Konfirmasi Password *</label>
+                                <input type="password" class="form-control" id="confirmPassword" style="border-radius: 10px; padding: 12px 15px;" placeholder="Ulangi password" required>
+                                <div class="invalid-feedback" id="confirmPasswordError"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" style="font-weight: 500;">Nomor Telepon *</label>
+                                <input type="tel" class="form-control" id="phone" style="border-radius: 10px; padding: 12px 15px;" placeholder="08xxxxxxxxxx" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" style="font-weight: 500;">Tanggal Lahir *</label>
+                                <input type="date" class="form-control" id="birthDate" style="border-radius: 10px; padding: 12px 15px;" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" style="font-weight: 500;">Jenis Kelamin *</label>
+                                <select class="form-control" id="gender" style="border-radius: 10px; padding: 12px 15px;" required>
+                                    <option value="">Pilih jenis kelamin</option>
+                                    <option value="male">Laki-laki</option>
+                                    <option value="female">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" style="font-weight: 500;">Kota *</label>
+                                <select class="form-control" id="city" style="border-radius: 10px; padding: 12px 15px;" required>
+                                    <option value="">Pilih kota</option>
+                                    <option value="Jakarta">Jakarta</option>
+                                    <option value="Bandung">Bandung</option>
+                                    <option value="Surabaya">Surabaya</option>
+                                    <option value="Yogyakarta">Yogyakarta</option>
+                                    <option value="Medan">Medan</option>
+                                    <option value="Semarang">Semarang</option>
+                                    <option value="Makassar">Makassar</option>
+                                    <option value="Palembang">Palembang</option>
+                                    <option value="Bali">Bali</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" style="font-weight: 500;">Pendidikan Terakhir *</label>
+                                <select class="form-control" id="education" style="border-radius: 10px; padding: 12px 15px;" required>
+                                    <option value="">Pilih pendidikan terakhir</option>
+                                    <option value="SMA/SMK">SMA/SMK</option>
+                                    <option value="D3">Diploma 3 (D3)</option>
+                                    <option value="S1">Sarjana (S1)</option>
+                                    <option value="S2">Magister (S2)</option>
+                                    <option value="S3">Doktor (S3)</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" style="font-weight: 500;">Bidang Keahlian/Minat *</label>
+                                <select class="form-control" id="field" style="border-radius: 10px; padding: 12px 15px;" required>
+                                    <option value="">Pilih bidang keahlian</option>
+                                    <option value="Technology">Technology & IT</option>
+                                    <option value="Marketing">Marketing & Sales</option>
+                                    <option value="Finance">Finance & Accounting</option>
+                                    <option value="Design">Design & Creative</option>
+                                    <option value="HR">Human Resources</option>
+                                    <option value="Operations">Operations & Logistics</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Legal">Legal</option>
+                                    <option value="Other">Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" style="font-weight: 500;">Pengalaman Kerja</label>
+                                <select class="form-control" id="experience" style="border-radius: 10px; padding: 12px 15px;">
+                                    <option value="">Pilih pengalaman kerja</option>
+                                    <option value="Fresh Graduate">Fresh Graduate</option>
+                                    <option value="< 1 tahun">Kurang dari 1 tahun</option>
+                                    <option value="1-2 tahun">1-2 tahun</option>
+                                    <option value="3-5 tahun">3-5 tahun</option>
+                                    <option value="5-10 tahun">5-10 tahun</option>
+                                    <option value="> 10 tahun">Lebih dari 10 tahun</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check" style="margin: 15px 0;">
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                    <label class="form-check-label" for="agreeTerms" style="color: #6c757d;">
+                                        Saya setuju dengan <a href="#" onclick="showTermsModal()" style="color: #667eea;">Syarat & Ketentuan</a> dan <a href="#" onclick="showPrivacyModal()" style="color: #667eea;">Kebijakan Privasi</a> TalentaHub *
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check" style="margin-bottom: 20px;">
+                                    <input class="form-check-input" type="checkbox" id="newsletter">
+                                    <label class="form-check-label" for="newsletter" style="color: #6c757d;">
+                                        Saya ingin menerima newsletter dan update lowongan kerja terbaru
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-gradient w-100 btn-lg mb-3">
+                            <i class="fas fa-user-plus me-2"></i>Daftar Sekarang
+                        </button>
+                        <div class="text-center">
+                            <p style="color: #6c757d; margin-bottom: 15px;">Sudah punya akun?</p>
+                            <button type="button" class="btn btn-outline-gradient w-100" onclick="showLoginFromRegistration()">
+                                <i class="fas fa-sign-in-alt me-2"></i>Masuk Sekarang
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Company Registration Modal -->
+    <div class="modal fade" id="companyRegistrationModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content" style="border-radius: 20px; border: none;">
+                <div class="modal-header" style="border: none; padding: 30px 30px 0;">
+                    <h5 class="modal-title" style="font-weight: 600; color: #2d3748;">
+                        <i class="fas fa-building me-2" style="color: #667eea;"></i>
+                        Daftarkan Perusahaan Anda
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" style="padding: 20px 30px 30px;">
+                    <!-- Tab Navigation -->
+                    <ul class="nav nav-pills nav-justified mb-4" id="companyTabs" role="tablist" style="background: rgba(102, 126, 234, 0.1); border-radius: 15px; padding: 5px;">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="company-info-tab" data-bs-toggle="pill" data-bs-target="#company-info" type="button" role="tab" style="border-radius: 10px; font-weight: 500;">
+                                <i class="fas fa-building me-2"></i>Info Perusahaan
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="post-job-tab" data-bs-toggle="pill" data-bs-target="#post-job" type="button" role="tab" style="border-radius: 10px; font-weight: 500;">
+                                <i class="fas fa-briefcase me-2"></i>Post Lowongan
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pricing-tab" data-bs-toggle="pill" data-bs-target="#pricing" type="button" role="tab" style="border-radius: 10px; font-weight: 500;">
+                                <i class="fas fa-tags me-2"></i>Paket & Harga
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="companyTabContent">
+                        <!-- Company Info Tab -->
+                        <div class="tab-pane fade show active" id="company-info" role="tabpanel">
+                            <form onsubmit="handleCompanyRegistration(event)" id="companyRegistrationForm">
+                                <div class="row g-3">
+                                    <div class="col-12 text-center mb-3">
+                                        <div style="width: 80px; height: 80px; background: var(--secondary-gradient); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 1.8rem;">
+                                            <i class="fas fa-building"></i>
+                                        </div>
+                                        <h6 style="color: #2d3748;">Daftarkan perusahaan Anda dan temukan talenta terbaik!</h6>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Nama Perusahaan *</label>
+                                        <input type="text" class="form-control" id="companyName" style="border-radius: 10px; padding: 12px 15px;" placeholder="PT. Nama Perusahaan" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Industri *</label>
+                                        <select class="form-control" id="companyIndustry" style="border-radius: 10px; padding: 12px 15px;" required>
+                                            <option value="">Pilih industri</option>
+                                            <option value="Technology">Technology & IT</option>
+                                            <option value="Finance">Finance & Banking</option>
+                                            <option value="Healthcare">Healthcare</option>
+                                            <option value="Education">Education</option>
+                                            <option value="Manufacturing">Manufacturing</option>
+                                            <option value="Retail">Retail & E-commerce</option>
+                                            <option value="Consulting">Consulting</option>
+                                            <option value="Media">Media & Entertainment</option>
+                                            <option value="Transportation">Transportation</option>
+                                            <option value="Real Estate">Real Estate</option>
+                                            <option value="Other">Lainnya</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Ukuran Perusahaan *</label>
+                                        <select class="form-control" id="companySize" style="border-radius: 10px; padding: 12px 15px;" required>
+                                            <option value="">Pilih ukuran perusahaan</option>
+                                            <option value="1-10">1-10 karyawan (Startup)</option>
+                                            <option value="11-50">11-50 karyawan (Small)</option>
+                                            <option value="51-200">51-200 karyawan (Medium)</option>
+                                            <option value="201-1000">201-1000 karyawan (Large)</option>
+                                            <option value="1000+">1000+ karyawan (Enterprise)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Tahun Berdiri</label>
+                                        <input type="number" class="form-control" id="companyFounded" style="border-radius: 10px; padding: 12px 15px;" placeholder="2020" min="1900" max="2024">
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label class="form-label" style="font-weight: 500;">Website Perusahaan</label>
+                                        <input type="url" class="form-control" id="companyWebsite" style="border-radius: 10px; padding: 12px 15px;" placeholder="https://www.perusahaan.com">
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label class="form-label" style="font-weight: 500;">Alamat Perusahaan *</label>
+                                        <textarea class="form-control" id="companyAddress" rows="3" style="border-radius: 10px; padding: 12px 15px;" placeholder="Alamat lengkap perusahaan" required></textarea>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Kota *</label>
+                                        <select class="form-control" id="companyCity" style="border-radius: 10px; padding: 12px 15px;" required>
+                                            <option value="">Pilih kota</option>
+                                            <option value="Jakarta">Jakarta</option>
+                                            <option value="Bandung">Bandung</option>
+                                            <option value="Surabaya">Surabaya</option>
+                                            <option value="Yogyakarta">Yogyakarta</option>
+                                            <option value="Medan">Medan</option>
+                                            <option value="Semarang">Semarang</option>
+                                            <option value="Makassar">Makassar</option>
+                                            <option value="Palembang">Palembang</option>
+                                            <option value="Bali">Bali</option>
+                                            <option value="Lainnya">Lainnya</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Nomor Telepon *</label>
+                                        <input type="tel" class="form-control" id="companyPhone" style="border-radius: 10px; padding: 12px 15px;" placeholder="021-12345678" required>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label class="form-label" style="font-weight: 500;">Deskripsi Perusahaan *</label>
+                                        <textarea class="form-control" id="companyDescription" rows="4" style="border-radius: 10px; padding: 12px 15px;" placeholder="Ceritakan tentang perusahaan Anda, visi, misi, dan budaya kerja..." required></textarea>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Nama Kontak HR *</label>
+                                        <input type="text" class="form-control" id="hrContactName" style="border-radius: 10px; padding: 12px 15px;" placeholder="Nama lengkap" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Email HR *</label>
+                                        <input type="email" class="form-control" id="hrContactEmail" style="border-radius: 10px; padding: 12px 15px;" placeholder="hr@perusahaan.com" required>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <div class="form-check" style="margin: 15px 0;">
+                                            <input class="form-check-input" type="checkbox" id="companyAgreeTerms" required>
+                                            <label class="form-check-label" for="companyAgreeTerms" style="color: #6c757d;">
+                                                Saya setuju dengan <a href="#" onclick="showTermsModal()" style="color: #667eea;">Syarat & Ketentuan</a> untuk perusahaan dan <a href="#" onclick="showPrivacyModal()" style="color: #667eea;">Kebijakan Privasi</a> TalentaHub *
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-gradient-secondary w-100 btn-lg mt-3">
+                                    <i class="fas fa-building me-2"></i>Daftarkan Perusahaan
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Post Job Tab -->
+                        <div class="tab-pane fade" id="post-job" role="tabpanel">
+                            <div class="text-center mb-4">
+                                <div style="width: 80px; height: 80px; background: var(--primary-gradient); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 1.8rem;">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <h6 style="color: #2d3748;">Post lowongan kerja dan temukan kandidat terbaik</h6>
+                            </div>
+                            
+                            <form onsubmit="handleJobPosting(event)" id="jobPostingForm">
+                                <div class="row g-3">
+                                    <div class="col-md-8">
+                                        <label class="form-label" style="font-weight: 500;">Judul Posisi *</label>
+                                        <input type="text" class="form-control" id="jobTitle" style="border-radius: 10px; padding: 12px 15px;" placeholder="Contoh: Senior Frontend Developer" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label" style="font-weight: 500;">Tipe Pekerjaan *</label>
+                                        <select class="form-control" id="jobType" style="border-radius: 10px; padding: 12px 15px;" required>
+                                            <option value="">Pilih tipe</option>
+                                            <option value="Full-time">Full-time</option>
+                                            <option value="Part-time">Part-time</option>
+                                            <option value="Contract">Contract</option>
+                                            <option value="Freelance">Freelance</option>
+                                            <option value="Internship">Internship</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Kategori *</label>
+                                        <select class="form-control" id="jobCategory" style="border-radius: 10px; padding: 12px 15px;" required>
+                                            <option value="">Pilih kategori</option>
+                                            <option value="Technology">Technology & IT</option>
+                                            <option value="Marketing">Marketing & Sales</option>
+                                            <option value="Finance">Finance & Accounting</option>
+                                            <option value="Design">Design & Creative</option>
+                                            <option value="HR">Human Resources</option>
+                                            <option value="Operations">Operations & Logistics</option>
+                                            <option value="Healthcare">Healthcare</option>
+                                            <option value="Education">Education</option>
+                                            <option value="Legal">Legal</option>
+                                            <option value="Other">Lainnya</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Level *</label>
+                                        <select class="form-control" id="jobLevel" style="border-radius: 10px; padding: 12px 15px;" required>
+                                            <option value="">Pilih level</option>
+                                            <option value="Entry Level">Entry Level</option>
+                                            <option value="Junior">Junior</option>
+                                            <option value="Mid Level">Mid Level</option>
+                                            <option value="Senior">Senior</option>
+                                            <option value="Lead">Lead</option>
+                                            <option value="Manager">Manager</option>
+                                            <option value="Director">Director</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Lokasi *</label>
+                                        <select class="form-control" id="jobLocation" style="border-radius: 10px; padding: 12px 15px;" required>
+                                            <option value="">Pilih lokasi</option>
+                                            <option value="Jakarta">Jakarta</option>
+                                            <option value="Bandung">Bandung</option>
+                                            <option value="Surabaya">Surabaya</option>
+                                            <option value="Yogyakarta">Yogyakarta</option>
+                                            <option value="Medan">Medan</option>
+                                            <option value="Semarang">Semarang</option>
+                                            <option value="Makassar">Makassar</option>
+                                            <option value="Palembang">Palembang</option>
+                                            <option value="Bali">Bali</option>
+                                            <option value="Remote">Remote</option>
+                                            <option value="Hybrid">Hybrid</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Range Gaji</label>
+                                        <input type="text" class="form-control" id="jobSalary" style="border-radius: 10px; padding: 12px 15px;" placeholder="Contoh: Rp 10-15 juta">
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label class="form-label" style="font-weight: 500;">Deskripsi Pekerjaan *</label>
+                                        <textarea class="form-control" id="jobDescription" rows="5" style="border-radius: 10px; padding: 12px 15px;" placeholder="Jelaskan tanggung jawab, tugas, dan ekspektasi untuk posisi ini..." required></textarea>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label class="form-label" style="font-weight: 500;">Kualifikasi & Requirements *</label>
+                                        <textarea class="form-control" id="jobRequirements" rows="4" style="border-radius: 10px; padding: 12px 15px;" placeholder="Pendidikan, pengalaman, skills yang dibutuhkan..." required></textarea>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <label class="form-label" style="font-weight: 500;">Skills/Tags (pisahkan dengan koma)</label>
+                                        <input type="text" class="form-control" id="jobSkills" style="border-radius: 10px; padding: 12px 15px;" placeholder="React, JavaScript, Node.js, MongoDB">
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Batas Waktu Lamaran</label>
+                                        <input type="date" class="form-control" id="jobDeadline" style="border-radius: 10px; padding: 12px 15px;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500;">Jumlah Posisi</label>
+                                        <input type="number" class="form-control" id="jobPositions" style="border-radius: 10px; padding: 12px 15px;" placeholder="1" min="1" value="1">
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-gradient w-100 btn-lg mt-4">
+                                    <i class="fas fa-paper-plane me-2"></i>Post Lowongan
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Pricing Tab -->
+                        <div class="tab-pane fade" id="pricing" role="tabpanel">
+                            <div class="text-center mb-4">
+                                <div style="width: 80px; height: 80px; background: var(--success-gradient); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 1.8rem;">
+                                    <i class="fas fa-tags"></i>
+                                </div>
+                                <h6 style="color: #2d3748;">Pilih paket yang sesuai dengan kebutuhan perusahaan Anda</h6>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="card h-100" style="border: 2px solid rgba(102, 126, 234, 0.2); border-radius: 20px; transition: all 0.3s ease;">
+                                        <div class="card-body text-center p-4">
+                                            <div style="width: 60px; height: 60px; background: rgba(102, 126, 234, 0.1); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #667eea; font-size: 1.5rem;">
+                                                <i class="fas fa-rocket"></i>
+                                            </div>
+                                            <h5 style="color: #2d3748; margin-bottom: 10px;">Starter</h5>
+                                            <div style="font-size: 2rem; font-weight: 700; color: #667eea; margin-bottom: 20px;">
+                                                Gratis
+                                            </div>
+                                            <ul class="list-unstyled text-start" style="color: #6c757d;">
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>1 lowongan aktif</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>30 hari posting</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Basic analytics</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Email support</li>
+                                            </ul>
+                                            <button class="btn btn-outline-gradient w-100 mt-3" onclick="selectPlan('starter')">
+                                                Pilih Starter
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="card h-100" style="border: 2px solid #667eea; border-radius: 20px; position: relative; transform: scale(1.05);">
+                                        <div class="position-absolute top-0 start-50 translate-middle">
+                                            <span class="badge" style="background: var(--primary-gradient); padding: 8px 20px; border-radius: 20px; font-size: 0.8rem;">POPULER</span>
+                                        </div>
+                                        <div class="card-body text-center p-4">
+                                            <div style="width: 60px; height: 60px; background: var(--primary-gradient); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 1.5rem;">
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <h5 style="color: #2d3748; margin-bottom: 10px;">Professional</h5>
+                                            <div style="font-size: 2rem; font-weight: 700; color: #667eea; margin-bottom: 5px;">
+                                                Rp 299K
+                                            </div>
+                                            <small style="color: #6c757d;">per bulan</small>
+                                            <ul class="list-unstyled text-start mt-3" style="color: #6c757d;">
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>5 lowongan aktif</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>60 hari posting</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Advanced analytics</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Priority support</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Featured listing</li>
+                                            </ul>
+                                            <button class="btn btn-gradient w-100 mt-3" onclick="selectPlan('professional')">
+                                                Pilih Professional
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="card h-100" style="border: 2px solid rgba(102, 126, 234, 0.2); border-radius: 20px; transition: all 0.3s ease;">
+                                        <div class="card-body text-center p-4">
+                                            <div style="width: 60px; height: 60px; background: var(--secondary-gradient); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 1.5rem;">
+                                                <i class="fas fa-crown"></i>
+                                            </div>
+                                            <h5 style="color: #2d3748; margin-bottom: 10px;">Enterprise</h5>
+                                            <div style="font-size: 2rem; font-weight: 700; color: #667eea; margin-bottom: 5px;">
+                                                Rp 799K
+                                            </div>
+                                            <small style="color: #6c757d;">per bulan</small>
+                                            <ul class="list-unstyled text-start mt-3" style="color: #6c757d;">
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unlimited lowongan</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>90 hari posting</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Full analytics suite</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Dedicated support</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Company branding</li>
+                                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Candidate database</li>
+                                            </ul>
+                                            <button class="btn btn-gradient-secondary w-100 mt-3" onclick="selectPlan('enterprise')">
+                                                Pilih Enterprise
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <p style="color: #6c757d;">
+                                    <i class="fas fa-phone me-2"></i>
+                                    Butuh paket custom? Hubungi tim sales kami di 
+                                    <a href="tel:+622112345678" style="color: #667eea;">+62 21 1234 5678</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1603,11 +2103,7 @@
 
         // Navigation functions
         function goToRegistration() {
-            // In a real app, this would navigate to registration page
-            showToast('Mengarahkan ke halaman registrasi...', 'info');
-            setTimeout(() => {
-                window.location.href = '#registration'; // This would be the actual registration URL
-            }, 1000);
+            showRegistrationModal();
         }
 
         function showLoginModal() {
@@ -1615,21 +2111,174 @@
             modal.show();
         }
 
+        function showRegistrationModal() {
+            const modal = new bootstrap.Modal(document.getElementById('registrationModal'));
+            modal.show();
+        }
+
+        function showCompanyRegistrationModal() {
+            const modal = new bootstrap.Modal(document.getElementById('companyRegistrationModal'));
+            modal.show();
+        }
+
+        function showLoginFromRegistration() {
+            const regModal = bootstrap.Modal.getInstance(document.getElementById('registrationModal'));
+            regModal.hide();
+            setTimeout(() => {
+                showLoginModal();
+            }, 300);
+        }
+
         // Handle login
         function handleLogin(event) {
             event.preventDefault();
             
-            // Simulate login process
-            showToast('Sedang memproses login...', 'loading');
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
             
-            setTimeout(() => {
-                localStorage.setItem('isLoggedIn', 'true');
-                hideLoadingToast();
-                showToast('Login berhasil! Selamat datang di TalentaHub! 🎉', 'success');
+            // Check if user exists in localStorage
+            const users = JSON.parse(localStorage.getItem('talentahub_users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                showToast('Sedang memproses login...', 'loading');
                 
-                const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                setTimeout(() => {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    hideLoadingToast();
+                    showToast(`Selamat datang kembali, ${user.firstName}! 🎉`, 'success');
+                    
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                    modal.hide();
+                    
+                    // Clear form
+                    document.getElementById('loginEmail').value = '';
+                    document.getElementById('loginPassword').value = '';
+                }, 1500);
+            } else {
+                showToast('Email atau password salah. Silakan coba lagi.', 'error');
+            }
+        }
+
+        // Handle registration
+        function handleRegistration(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value,
+                confirmPassword: document.getElementById('confirmPassword').value,
+                phone: document.getElementById('phone').value,
+                birthDate: document.getElementById('birthDate').value,
+                gender: document.getElementById('gender').value,
+                city: document.getElementById('city').value,
+                education: document.getElementById('education').value,
+                field: document.getElementById('field').value,
+                experience: document.getElementById('experience').value,
+                newsletter: document.getElementById('newsletter').checked,
+                registrationDate: new Date().toISOString()
+            };
+            
+            // Validate form
+            if (!validateRegistrationForm(formData)) {
+                return;
+            }
+            
+            // Check if email already exists
+            const users = JSON.parse(localStorage.getItem('talentahub_users') || '[]');
+            if (users.find(u => u.email === formData.email)) {
+                showToast('Email sudah terdaftar. Silakan gunakan email lain atau login.', 'error');
+                return;
+            }
+            
+            // Show loading
+            showToast('Sedang memproses pendaftaran...', 'loading');
+            
+            // Simulate registration process
+            setTimeout(() => {
+                // Save user data
+                users.push(formData);
+                localStorage.setItem('talentahub_users', JSON.stringify(users));
+                
+                // Auto login
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', JSON.stringify(formData));
+                
+                hideLoadingToast();
+                showToast(`Selamat datang di TalentaHub, ${formData.firstName}! Akun berhasil dibuat! 🎉`, 'success');
+                
+                const modal = bootstrap.Modal.getInstance(document.getElementById('registrationModal'));
                 modal.hide();
-            }, 2000);
+                
+                // Clear form
+                document.getElementById('registrationForm').reset();
+                
+                // Show welcome message with next steps
+                setTimeout(() => {
+                    showToast('Tip: Upload CV Anda untuk mendapatkan rekomendasi pekerjaan yang lebih baik! 📄', 'info');
+                }, 3000);
+                
+            }, 2500);
+        }
+
+        // Validate registration form
+        function validateRegistrationForm(data) {
+            let isValid = true;
+            
+            // Clear previous errors
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                document.getElementById('regEmail').classList.add('is-invalid');
+                document.getElementById('emailError').textContent = 'Format email tidak valid';
+                isValid = false;
+            }
+            
+            // Password validation
+            if (data.password.length < 8) {
+                document.getElementById('regPassword').classList.add('is-invalid');
+                document.getElementById('passwordError').textContent = 'Password minimal 8 karakter';
+                isValid = false;
+            }
+            
+            // Confirm password validation
+            if (data.password !== data.confirmPassword) {
+                document.getElementById('confirmPassword').classList.add('is-invalid');
+                document.getElementById('confirmPasswordError').textContent = 'Password tidak cocok';
+                isValid = false;
+            }
+            
+            // Age validation (must be at least 17 years old)
+            const birthDate = new Date(data.birthDate);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (age < 17 || (age === 17 && monthDiff < 0)) {
+                document.getElementById('birthDate').classList.add('is-invalid');
+                showToast('Usia minimal 17 tahun untuk mendaftar', 'error');
+                isValid = false;
+            }
+            
+            // Phone validation (Indonesian format)
+            const phoneRegex = /^(\+62|62|0)[0-9]{9,13}$/;
+            if (!phoneRegex.test(data.phone.replace(/\s/g, ''))) {
+                document.getElementById('phone').classList.add('is-invalid');
+                showToast('Format nomor telepon tidak valid', 'error');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                showToast('Mohon periksa kembali data yang Anda masukkan', 'error');
+            }
+            
+            return isValid;
         }
 
         // Initialize animations
@@ -2054,13 +2703,277 @@
             showToast('Pusat bantuan akan segera tersedia! 🆘', 'info');
         }
         function showPrivacyModal() {
-            showToast('Privacy Policy akan segera tersedia! 🔒', 'info');
+            const modal = new bootstrap.Modal(document.getElementById('genericModal'));
+            document.getElementById('genericModalTitle').innerHTML = '<i class="fas fa-shield-alt me-2" style="color: #667eea;"></i>Kebijakan Privasi';
+            document.getElementById('genericModalBody').innerHTML = `
+                <div style="max-height: 500px; overflow-y: auto; padding-right: 10px;">
+                    <div class="text-center mb-4">
+                        <div style="width: 80px; height: 80px; background: var(--primary-gradient); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 1.8rem;">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <p style="color: #6c757d; margin-bottom: 0;"><strong>Terakhir diperbarui:</strong> 15 Desember 2024</p>
+                    </div>
+                    
+                    <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 15px; margin-bottom: 25px;">
+                        <h6 style="color: #2d3748; margin-bottom: 10px;"><i class="fas fa-heart me-2" style="color: #e74c3c;"></i>Komitmen Kami</h6>
+                        <p style="color: #6c757d; margin-bottom: 0; line-height: 1.6;">
+                            <strong>Kami TIDAK akan menjual data pribadi Anda.</strong> Privasi dan keamanan data Anda adalah prioritas utama TalentaHub.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-info-circle me-2" style="color: #667eea;"></i>1. Informasi yang Kami Kumpulkan</h6>
+                        <ul style="color: #6c757d; line-height: 1.6; padding-left: 20px;">
+                            <li><strong>Data Pribadi:</strong> Nama, email, nomor telepon, tanggal lahir, alamat</li>
+                            <li><strong>Data Profesional:</strong> CV, pengalaman kerja, pendidikan, keahlian</li>
+                            <li><strong>Data Penggunaan:</strong> Aktivitas di platform, preferensi pencarian</li>
+                            <li><strong>Data Teknis:</strong> IP address, browser, perangkat yang digunakan</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-cogs me-2" style="color: #667eea;"></i>2. Bagaimana Kami Menggunakan Informasi</h6>
+                        <ul style="color: #6c757d; line-height: 1.6; padding-left: 20px;">
+                            <li>Menyediakan layanan pencarian kerja dan pencocokan lowongan</li>
+                            <li>Memfasilitasi komunikasi antara pencari kerja dan perusahaan</li>
+                            <li>Mengirim notifikasi lowongan yang relevan</li>
+                            <li>Meningkatkan kualitas platform dan pengalaman pengguna</li>
+                            <li>Mencegah penipuan dan menjaga keamanan platform</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-share-alt me-2" style="color: #667eea;"></i>3. Berbagi Informasi</h6>
+                        <div style="background: rgba(220, 53, 69, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                            <p style="color: #dc3545; margin-bottom: 0; font-weight: 500;">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Kami TIDAK menjual data pribadi Anda kepada pihak ketiga untuk tujuan komersial.
+                            </p>
+                        </div>
+                        <p style="color: #6c757d; line-height: 1.6; margin-bottom: 10px;">Kami hanya berbagi informasi dalam situasi berikut:</p>
+                        <ul style="color: #6c757d; line-height: 1.6; padding-left: 20px;">
+                            <li><strong>Dengan Perusahaan:</strong> CV dan profil Anda ketika melamar pekerjaan</li>
+                            <li><strong>Penyedia Layanan:</strong> Partner teknologi untuk operasional platform</li>
+                            <li><strong>Kewajiban Hukum:</strong> Jika diwajibkan oleh peraturan yang berlaku</li>
+                            <li><strong>Dengan Persetujuan:</strong> Ketika Anda memberikan izin eksplisit</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-lock me-2" style="color: #667eea;"></i>4. Keamanan Data</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div style="background: rgba(40, 167, 69, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                                    <i class="fas fa-certificate fa-2x mb-2" style="color: #28a745;"></i>
+                                    <h6 style="color: #2d3748; margin-bottom: 5px;">Enkripsi SSL/TLS</h6>
+                                    <small style="color: #6c757d;">Data terenkripsi saat transmisi</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div style="background: rgba(40, 167, 69, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                                    <i class="fas fa-database fa-2x mb-2" style="color: #28a745;"></i>
+                                    <h6 style="color: #2d3748; margin-bottom: 5px;">Database Aman</h6>
+                                    <small style="color: #6c757d;">Penyimpanan data terproteksi</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-user-check me-2" style="color: #667eea;"></i>5. Hak Pengguna</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="text-center p-3" style="background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                                    <i class="fas fa-eye fa-2x mb-2" style="color: #667eea;"></i>
+                                    <h6 style="color: #2d3748; font-size: 0.9rem;">Akses Data</h6>
+                                    <small style="color: #6c757d;">Lihat data yang kami miliki</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center p-3" style="background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                                    <i class="fas fa-edit fa-2x mb-2" style="color: #667eea;"></i>
+                                    <h6 style="color: #2d3748; font-size: 0.9rem;">Koreksi Data</h6>
+                                    <small style="color: #6c757d;">Perbaiki informasi yang salah</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center p-3" style="background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                                    <i class="fas fa-trash fa-2x mb-2" style="color: #667eea;"></i>
+                                    <h6 style="color: #2d3748; font-size: 0.9rem;">Hapus Data</h6>
+                                    <small style="color: #6c757d;">Minta penghapusan data</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-cookie-bite me-2" style="color: #667eea;"></i>6. Cookies dan Teknologi Pelacakan</h6>
+                        <p style="color: #6c757d; line-height: 1.6; margin-bottom: 10px;">Kami menggunakan cookies untuk:</p>
+                        <ul style="color: #6c757d; line-height: 1.6; padding-left: 20px;">
+                            <li>Menjaga sesi login Anda</li>
+                            <li>Mengingat preferensi pencarian</li>
+                            <li>Menganalisis penggunaan platform</li>
+                            <li>Menyediakan konten yang relevan</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-clock me-2" style="color: #667eea;"></i>7. Penyimpanan Data</h6>
+                        <p style="color: #6c757d; line-height: 1.6;">
+                            Data pribadi Anda akan disimpan selama akun aktif dan hingga 2 tahun setelah akun dihapus untuk keperluan hukum dan keamanan. Data dapat dihapus lebih cepat atas permintaan Anda.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-sync-alt me-2" style="color: #667eea;"></i>8. Perubahan Kebijakan</h6>
+                        <p style="color: #6c757d; line-height: 1.6;">
+                            Kami akan memberitahu Anda melalui email atau notifikasi di platform jika ada perubahan signifikan pada kebijakan privasi ini.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 15px;">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-envelope me-2" style="color: #667eea;"></i>9. Hubungi Data Protection Officer</h6>
+                        <p style="color: #6c757d; line-height: 1.6; margin-bottom: 10px;">
+                            Untuk pertanyaan tentang privasi atau menggunakan hak Anda:
+                        </p>
+                        <p style="color: #6c757d; margin-bottom: 5px;"><strong>Email:</strong> privacy@talentahub.com</p>
+                        <p style="color: #6c757d; margin-bottom: 0;"><strong>DPO:</strong> Budi Santoso, Data Protection Officer</p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button class="btn btn-gradient" onclick="acceptPrivacy()">
+                        <i class="fas fa-check me-2"></i>Saya Memahami Kebijakan Privasi
+                    </button>
+                </div>
+            `;
+            modal.show();
         }
+        
         function showTermsModal() {
-            showToast('Terms of Service akan segera tersedia! 📋', 'info');
-        }
-        function showSitemapModal() {
-            showToast('Sitemap akan segera tersedia! 🗺️', 'info');
+            const modal = new bootstrap.Modal(document.getElementById('genericModal'));
+            document.getElementById('genericModalTitle').innerHTML = '<i class="fas fa-file-contract me-2" style="color: #667eea;"></i>Syarat & Ketentuan';
+            document.getElementById('genericModalBody').innerHTML = `
+                <div style="max-height: 500px; overflow-y: auto; padding-right: 10px;">
+                    <div class="text-center mb-4">
+                        <div style="width: 80px; height: 80px; background: var(--secondary-gradient); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; color: white; font-size: 1.8rem;">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <p style="color: #6c757d; margin-bottom: 0;"><strong>Terakhir diperbarui:</strong> 15 Desember 2024</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-handshake me-2" style="color: #667eea;"></i>1. Penerimaan Syarat</h6>
+                        <p style="color: #6c757d; line-height: 1.6;">
+                            Dengan menggunakan platform TalentaHub, Anda menyetujui untuk terikat dengan syarat dan ketentuan ini. Jika Anda tidak setuju, mohon tidak menggunakan layanan kami.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-briefcase me-2" style="color: #667eea;"></i>2. Layanan TalentaHub</h6>
+                        <p style="color: #6c757d; line-height: 1.6; margin-bottom: 10px;">TalentaHub menyediakan:</p>
+                        <ul style="color: #6c757d; line-height: 1.6; padding-left: 20px;">
+                            <li>Platform pencarian kerja online</li>
+                            <li>Pencocokan lowongan dengan profil pengguna</li>
+                            <li>Fasilitas komunikasi antara pencari kerja dan perusahaan</li>
+                            <li>Tools untuk manajemen CV dan profil profesional</li>
+                            <li>Layanan posting lowongan untuk perusahaan</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-user-cog me-2" style="color: #667eea;"></i>3. Akun Pengguna</h6>
+                        <div style="background: rgba(255, 193, 7, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                            <p style="color: #856404; margin-bottom: 0; font-weight: 500;">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Anda bertanggung jawab penuh atas keamanan akun dan password Anda.
+                            </p>
+                        </div>
+                        <ul style="color: #6c757d; line-height: 1.6; padding-left: 20px;">
+                            <li>Berikan informasi yang akurat dan terkini</li>
+                            <li>Jaga kerahasiaan password Anda</li>
+                            <li>Laporkan segera jika akun Anda disalahgunakan</li>
+                            <li>Satu orang hanya boleh memiliki satu akun</li>
+                            <li>Akun tidak dapat dipindahtangankan</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-ban me-2" style="color: #667eea;"></i>4. Konten dan Perilaku yang Dilarang</h6>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <div style="background: rgba(220, 53, 69, 0.1); padding: 15px; border-radius: 10px;">
+                                    <h6 style="color: #dc3545; margin-bottom: 10px;"><i class="fas fa-times-circle me-2"></i>Dilarang Keras</h6>
+                                    <ul style="color: #6c757d; font-size: 0.9rem; margin-bottom: 0; padding-left: 15px;">
+                                        <li>Konten pornografi atau tidak pantas</li>
+                                        <li>Penipuan atau informasi palsu</li>
+                                        <li>Spam atau pesan berulang</li>
+                                        <li>Diskriminasi SARA</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div style="background: rgba(220, 53, 69, 0.1); padding: 15px; border-radius: 10px;">
+                                    <h6 style="color: #dc3545; margin-bottom: 10px;"><i class="fas fa-exclamation-triangle me-2"></i>Tidak Diizinkan</h6>
+                                    <ul style="color: #6c757d; font-size: 0.9rem; margin-bottom: 0; padding-left: 15px;">
+                                        <li>Hacking atau malware</li>
+                                        <li>Pelanggaran hak cipta</li>
+                                        <li>Aktivitas ilegal</li>
+                                        <li>Penyalahgunaan sistem</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-shield-alt me-2" style="color: #667eea;"></i>5. Privasi Data</h6>
+                        <p style="color: #6c757d; line-height: 1.6;">
+                            Penggunaan data pribadi Anda diatur dalam <a href="#" onclick="showPrivacyModal()" style="color: #667eea;">Kebijakan Privasi</a> kami. Dengan menggunakan layanan ini, Anda menyetujui pengumpulan dan penggunaan data sesuai kebijakan tersebut.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-balance-scale me-2" style="color: #667eea;"></i>6. Batasan Tanggung Jawab</h6>
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px;">
+                            <p style="color: #6c757d; line-height: 1.6; margin-bottom: 10px;">
+                                <strong>TalentaHub tidak bertanggung jawab atas:</strong>
+                            </p>
+                            <ul style="color: #6c757d; line-height: 1.6; margin-bottom: 0; padding-left: 20px;">
+                                <li>Kualitas atau keakuratan lowongan yang diposting perusahaan</li>
+                                <li>Proses rekrutmen dan keputusan hiring perusahaan</li>
+                                <li>Perselisihan antara pencari kerja dan perusahaan</li>
+                                <li>Kerugian finansial atau karir akibat penggunaan platform</li>
+                                <li>Gangguan teknis atau downtime sementara</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-edit me-2" style="color: #667eea;"></i>7. Perubahan Syarat</h6>
+                        <p style="color: #6c757d; line-height: 1.6;">
+                            Kami berhak mengubah syarat dan ketentuan ini sewaktu-waktu. Perubahan signifikan akan diberitahukan melalui email atau notifikasi di platform. Penggunaan berkelanjutan setelah perubahan dianggap sebagai persetujuan.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 15px;">
+                        <h6 style="color: #2d3748; margin-bottom: 15px;"><i class="fas fa-gavel me-2" style="color: #667eea;"></i>8. Kontak Legal</h6>
+                        <p style="color: #6c757d; line-height: 1.6; margin-bottom: 10px;">
+                            Untuk pertanyaan hukum atau pelanggaran syarat ketentuan:
+                        </p>
+                        <p style="color: #6c757d; margin-bottom: 5px;"><strong>Email:</strong> legal@talentahub.com</p>
+                        <p style="color: #6c757d; margin-bottom: 5px;"><strong>Telepon:</strong> +62 21 1234 5678</p>
+                        <p style="color: #6c757d; margin-bottom: 0;"><strong>Alamat:</strong> Menara TalentaHub, Jakarta Selatan 12950</p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button class="btn btn-gradient-secondary" onclick="acceptTerms()">
+                        <i class="fas fa-check me-2"></i>Saya Menyetujui Syarat & Ketentuan
+                    </button>
+                </div>
+            `;
+            modal.show();
         }
         function showForgotPasswordModal() {
             showToast('Fitur reset password akan segera tersedia! 🔑', 'info');
@@ -2120,6 +3033,124 @@
             }
         }
 
+        // Company registration handler
+        function handleCompanyRegistration(event) {
+            event.preventDefault();
+            
+            const companyData = {
+                name: document.getElementById('companyName').value,
+                industry: document.getElementById('companyIndustry').value,
+                size: document.getElementById('companySize').value,
+                founded: document.getElementById('companyFounded').value,
+                website: document.getElementById('companyWebsite').value,
+                address: document.getElementById('companyAddress').value,
+                city: document.getElementById('companyCity').value,
+                phone: document.getElementById('companyPhone').value,
+                description: document.getElementById('companyDescription').value,
+                hrContactName: document.getElementById('hrContactName').value,
+                hrContactEmail: document.getElementById('hrContactEmail').value,
+                registrationDate: new Date().toISOString(),
+                status: 'pending_verification'
+            };
+            
+            showToast('Sedang memproses pendaftaran perusahaan...', 'loading');
+            
+            setTimeout(() => {
+                // Save company data
+                const companies = JSON.parse(localStorage.getItem('talentahub_companies') || '[]');
+                companies.push(companyData);
+                localStorage.setItem('talentahub_companies', JSON.stringify(companies));
+                
+                hideLoadingToast();
+                showToast(`Pendaftaran ${companyData.name} berhasil! Tim kami akan meninjau dalam 24 jam. 🏢`, 'success');
+                
+                const modal = bootstrap.Modal.getInstance(document.getElementById('companyRegistrationModal'));
+                modal.hide();
+                
+                // Clear form
+                document.getElementById('companyRegistrationForm').reset();
+                
+                // Show next steps
+                setTimeout(() => {
+                    showToast('Cek email untuk konfirmasi dan langkah selanjutnya! 📧', 'info');
+                }, 3000);
+            }, 2500);
+        }
+
+        // Job posting handler
+        function handleJobPosting(event) {
+            event.preventDefault();
+            
+            const jobData = {
+                title: document.getElementById('jobTitle').value,
+                type: document.getElementById('jobType').value,
+                category: document.getElementById('jobCategory').value,
+                level: document.getElementById('jobLevel').value,
+                location: document.getElementById('jobLocation').value,
+                salary: document.getElementById('jobSalary').value,
+                description: document.getElementById('jobDescription').value,
+                requirements: document.getElementById('jobRequirements').value,
+                skills: document.getElementById('jobSkills').value.split(',').map(s => s.trim()).filter(s => s),
+                deadline: document.getElementById('jobDeadline').value,
+                positions: document.getElementById('jobPositions').value,
+                postedDate: new Date().toISOString(),
+                status: 'active'
+            };
+            
+            showToast('Sedang memposting lowongan kerja...', 'loading');
+            
+            setTimeout(() => {
+                // Save job data
+                const jobs = JSON.parse(localStorage.getItem('talentahub_posted_jobs') || '[]');
+                jobs.push(jobData);
+                localStorage.setItem('talentahub_posted_jobs', JSON.stringify(jobs));
+                
+                hideLoadingToast();
+                showToast(`Lowongan "${jobData.title}" berhasil diposting! 🎯`, 'success');
+                
+                // Clear form
+                document.getElementById('jobPostingForm').reset();
+                
+                // Show success message
+                setTimeout(() => {
+                    showToast('Lowongan Anda akan tampil dalam 1-2 jam setelah moderasi! ⏰', 'info');
+                }, 3000);
+            }, 2000);
+        }
+
+        // Plan selection handler
+        function selectPlan(planType) {
+            const plans = {
+                starter: { name: 'Starter', price: 'Gratis', features: '1 lowongan, 30 hari' },
+                professional: { name: 'Professional', price: 'Rp 299K/bulan', features: '5 lowongan, 60 hari' },
+                enterprise: { name: 'Enterprise', price: 'Rp 799K/bulan', features: 'Unlimited lowongan, 90 hari' }
+            };
+            
+            const plan = plans[planType];
+            showToast(`Paket ${plan.name} dipilih! Tim sales akan menghubungi Anda untuk setup. 📞`, 'success');
+            
+            // In a real app, this would redirect to payment or contact form
+            setTimeout(() => {
+                showToast('Silakan lengkapi pendaftaran perusahaan terlebih dahulu! 📋', 'info');
+                // Switch to company info tab
+                const companyInfoTab = document.getElementById('company-info-tab');
+                companyInfoTab.click();
+            }, 2000);
+        }
+
+        // Accept functions for terms and privacy
+        function acceptTerms() {
+            showToast('Terima kasih telah menyetujui Syarat & Ketentuan TalentaHub! ✅', 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('genericModal'));
+            modal.hide();
+        }
+
+        function acceptPrivacy() {
+            showToast('Terima kasih telah memahami Kebijakan Privasi kami! 🔒', 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('genericModal'));
+            modal.hide();
+        }
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -2137,5 +3168,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97666846f0175c2e',t:'MTc1NjQxMTM1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9766a70af4bcfd8b',t:'MTc1NjQxMzkyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
