@@ -1550,6 +1550,183 @@
         let jobsData = [];
         let companiesData = [];
         let authToken = localStorage.getItem('authToken');
+        let isUserRegistered = localStorage.getItem('userRegistered') === 'true';
+        
+        // Check registration status on page load
+        function checkRegistrationStatus() {
+            if (!isUserRegistered) {
+                // Show registration modal immediately
+                setTimeout(() => {
+                    showRegistrationRequiredModal();
+                }, 2000);
+                
+                // Disable job applications and search
+                disableFeatures();
+            }
+        }
+        
+        function disableFeatures() {
+            // Add overlay to job cards
+            const jobCards = document.querySelectorAll('.job-card');
+            jobCards.forEach(card => {
+                if (!card.classList.contains('registration-locked')) {
+                    card.classList.add('registration-locked');
+                    card.style.position = 'relative';
+                    card.style.opacity = '0.7';
+                    
+                    const overlay = document.createElement('div');
+                    overlay.className = 'registration-overlay';
+                    overlay.innerHTML = `
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.9); color: white; padding: 20px; border-radius: 15px; text-align: center; z-index: 10; backdrop-filter: blur(5px);">
+                            <i class="fas fa-lock" style="font-size: 2rem; margin-bottom: 10px; display: block; color: #ffd700;"></i>
+                            <span style="font-weight: 600; font-size: 1rem;">Daftar untuk Melamar</span>
+                            <br>
+                            <button onclick="showRegistrationModal()" class="btn btn-gradient btn-sm mt-2">
+                                <i class="fas fa-user-plus me-1"></i>Daftar Gratis
+                            </button>
+                        </div>
+                    `;
+                    card.appendChild(overlay);
+                }
+            });
+        }
+        
+        function showRegistrationRequiredModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.setAttribute('data-bs-backdrop', 'static');
+            modal.setAttribute('data-bs-keyboard', 'false');
+            modal.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="border-radius: 20px; border: none;">
+                        <div class="modal-header" style="border: none; padding: 30px 30px 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 20px 20px 0 0;">
+                            <h4 class="modal-title" style="font-weight: 700;">
+                                <i class="fas fa-rocket me-2"></i>
+                                Selamat Datang di talentahubindo!
+                            </h4>
+                        </div>
+                        <div class="modal-body" style="padding: 30px;">
+                            <div class="text-center mb-4">
+                                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                                    <i class="fas fa-briefcase" style="color: white; font-size: 2rem;"></i>
+                                </div>
+                                <h5 style="color: #2d3748; margin-bottom: 15px;">Daftar Gratis untuk Mengakses Semua Fitur</h5>
+                                <p style="color: #6c757d; line-height: 1.6;">
+                                    Untuk melamar pekerjaan dan mengakses fitur lengkap talentahubindo, Anda perlu mendaftar terlebih dahulu. Gratis dan hanya butuh 2 menit!
+                                </p>
+                            </div>
+                            
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center; height: 100%;">
+                                        <i class="fas fa-search" style="color: #667eea; font-size: 2rem; margin-bottom: 10px;"></i>
+                                        <h6 style="color: #2d3748; margin-bottom: 8px;">Cari & Lamar Pekerjaan</h6>
+                                        <small style="color: #6c757d;">Akses ribuan lowongan kerja terbaru</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center; height: 100%;">
+                                        <i class="fas fa-bell" style="color: #28a745; font-size: 2rem; margin-bottom: 10px;"></i>
+                                        <h6 style="color: #2d3748; margin-bottom: 8px;">Notifikasi Lowongan</h6>
+                                        <small style="color: #6c757d;">Dapatkan alert lowongan sesuai minat</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center; height: 100%;">
+                                        <i class="fas fa-crown" style="color: #ffd700; font-size: 2rem; margin-bottom: 10px;"></i>
+                                        <h6 style="color: #2d3748; margin-bottom: 8px;">Lowongan Premium</h6>
+                                        <small style="color: #6c757d;">Akses lowongan dari perusahaan top</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center; height: 100%;">
+                                        <i class="fas fa-user-tie" style="color: #f093fb; font-size: 2rem; margin-bottom: 10px;"></i>
+                                        <h6 style="color: #2d3748; margin-bottom: 8px;">Profil Profesional</h6>
+                                        <small style="color: #6c757d;">Buat profil yang menarik untuk HR</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button onclick="showRegistrationModal(); closeRegistrationRequiredModal();" class="btn btn-gradient btn-lg me-2">
+                                    <i class="fas fa-user-plus me-2"></i>Daftar Gratis Sekarang
+                                </button>
+                                <button onclick="showLoginModal(); closeRegistrationRequiredModal();" class="btn btn-outline-gradient btn-lg me-2">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Sudah Punya Akun?
+                                </button>
+                                <br><br>
+                                <button onclick="browseAsGuest()" class="btn btn-link" style="color: #6c757d; text-decoration: none;">
+                                    <i class="fas fa-eye me-1"></i>Lihat sebagai Tamu (Terbatas)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+            
+            // Store modal reference
+            window.registrationRequiredModal = {
+                element: modal,
+                instance: bootstrapModal
+            };
+        }
+        
+        function closeRegistrationRequiredModal() {
+            if (window.registrationRequiredModal) {
+                window.registrationRequiredModal.instance.hide();
+                setTimeout(() => {
+                    if (window.registrationRequiredModal.element.parentNode) {
+                        document.body.removeChild(window.registrationRequiredModal.element);
+                    }
+                    window.registrationRequiredModal = null;
+                }, 300);
+            }
+        }
+        
+        function browseAsGuest() {
+            closeRegistrationRequiredModal();
+            showGuestLimitationToast();
+        }
+        
+        function showGuestLimitationToast() {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ffc107;
+                color: #8b5a2b;
+                padding: 15px 20px;
+                border-radius: 10px;
+                z-index: 9999;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                animation: slideInRight 0.3s ease;
+                max-width: 300px;
+            `;
+            toast.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <div>
+                        <strong>Mode Tamu</strong><br>
+                        <small>Fitur terbatas. Daftar untuk akses penuh!</small>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        document.body.removeChild(toast);
+                    }
+                }, 300);
+            }, 5000);
+        }
         
         // Priority levels based on company packages
         const PRIORITY_LEVELS = {
@@ -1933,6 +2110,12 @@
         }
 
         function applyToJob(jobId) {
+            // Check if user is registered
+            if (!isUserRegistered) {
+                showRegistrationRequiredModal();
+                return;
+            }
+            
             const job = jobsData.find(j => j.id === jobId);
             
             const modal = document.createElement('div');
@@ -1970,12 +2153,351 @@
             });
         }
 
+        function showRegistrationModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="border-radius: 20px; border: none;">
+                        <div class="modal-header" style="border: none; padding: 30px 30px 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 20px 20px 0 0;">
+                            <h4 class="modal-title" style="font-weight: 700;">
+                                <i class="fas fa-user-plus me-2"></i>
+                                Daftar Gratis di talentahubindo
+                            </h4>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 30px;">
+                            <form onsubmit="handleRegistration(event)">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500; color: #2d3748;">Nama Lengkap</label>
+                                        <input type="text" class="form-control" id="regFullName" required style="border-radius: 10px; padding: 12px 15px;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500; color: #2d3748;">Email</label>
+                                        <input type="email" class="form-control" id="regEmail" required style="border-radius: 10px; padding: 12px 15px;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500; color: #2d3748;">Nomor WhatsApp</label>
+                                        <input type="tel" class="form-control" id="regPhone" required style="border-radius: 10px; padding: 12px 15px;" placeholder="08123456789">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-weight: 500; color: #2d3748;">Lokasi</label>
+                                        <select class="form-control" id="regLocation" required style="border-radius: 10px; padding: 12px 15px;">
+                                            <option value="">Pilih Lokasi</option>
+                                            <option value="Jakarta">Jakarta</option>
+                                            <option value="Bandung">Bandung</option>
+                                            <option value="Surabaya">Surabaya</option>
+                                            <option value="Yogyakarta">Yogyakarta</option>
+                                            <option value="Bali">Bali</option>
+                                            <option value="Medan">Medan</option>
+                                            <option value="Semarang">Semarang</option>
+                                            <option value="Lainnya">Lainnya</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label" style="font-weight: 500; color: #2d3748;">Bidang Pekerjaan yang Diminati</label>
+                                        <select class="form-control" id="regCategory" required style="border-radius: 10px; padding: 12px 15px;">
+                                            <option value="">Pilih Bidang</option>
+                                            <option value="Technology">Technology & IT</option>
+                                            <option value="Marketing">Marketing & Sales</option>
+                                            <option value="Finance">Finance & Banking</option>
+                                            <option value="Design">Design & Creative</option>
+                                            <option value="HR">Human Resources</option>
+                                            <option value="Operations">Operations</option>
+                                            <option value="Education">Education</option>
+                                            <option value="Healthcare">Healthcare</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label" style="font-weight: 500; color: #2d3748;">Password</label>
+                                        <input type="password" class="form-control" id="regPassword" required style="border-radius: 10px; padding: 12px 15px;" minlength="6">
+                                        <small style="color: #6c757d;">Minimal 6 karakter</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                    <label class="form-check-label" for="agreeTerms" style="color: #6c757d;">
+                                        Saya setuju dengan <a href="#" style="color: #667eea;">Syarat & Ketentuan</a> dan <a href="#" style="color: #667eea;">Kebijakan Privasi</a>
+                                    </label>
+                                </div>
+                                
+                                <div class="d-grid gap-2 mt-4">
+                                    <button type="submit" class="btn btn-gradient btn-lg">
+                                        <i class="fas fa-user-plus me-2"></i>Daftar Sekarang
+                                    </button>
+                                    <button type="button" onclick="showLoginModal(); closeCurrentModal(this);" class="btn btn-outline-gradient">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Sudah punya akun? Masuk
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+            
+            modal.addEventListener('hidden.bs.modal', function() {
+                document.body.removeChild(modal);
+            });
+        }
+
         function showLoginModal() {
-            alert('Fitur login akan segera tersedia! Untuk saat ini, silakan hubungi kami melalui WhatsApp.');
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog">
+                    <div class="modal-content" style="border-radius: 20px; border: none;">
+                        <div class="modal-header" style="border: none; padding: 30px 30px 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 20px 20px 0 0;">
+                            <h4 class="modal-title" style="font-weight: 700;">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Masuk ke talentahubindo
+                            </h4>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 30px;">
+                            <form onsubmit="handleLogin(event)">
+                                <div class="mb-3">
+                                    <label class="form-label" style="font-weight: 500; color: #2d3748;">Email</label>
+                                    <input type="email" class="form-control" id="loginEmail" required style="border-radius: 10px; padding: 12px 15px;">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" style="font-weight: 500; color: #2d3748;">Password</label>
+                                    <input type="password" class="form-control" id="loginPassword" required style="border-radius: 10px; padding: 12px 15px;">
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="rememberMe">
+                                        <label class="form-check-label" for="rememberMe" style="color: #6c757d;">
+                                            Ingat saya
+                                        </label>
+                                    </div>
+                                    <a href="#" style="color: #667eea; text-decoration: none;">Lupa password?</a>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-gradient btn-lg">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Masuk
+                                    </button>
+                                    <button type="button" onclick="showRegistrationModal(); closeCurrentModal(this);" class="btn btn-outline-gradient">
+                                        <i class="fas fa-user-plus me-2"></i>Belum punya akun? Daftar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+            
+            modal.addEventListener('hidden.bs.modal', function() {
+                document.body.removeChild(modal);
+            });
+        }
+
+        function closeCurrentModal(button) {
+            const modal = button.closest('.modal');
+            const bootstrapModal = bootstrap.Modal.getInstance(modal);
+            bootstrapModal.hide();
+        }
+
+        function handleRegistration(event) {
+            event.preventDefault();
+            
+            const formData = {
+                fullName: document.getElementById('regFullName').value,
+                email: document.getElementById('regEmail').value,
+                phone: document.getElementById('regPhone').value,
+                location: document.getElementById('regLocation').value,
+                category: document.getElementById('regCategory').value,
+                password: document.getElementById('regPassword').value
+            };
+            
+            // Simulate registration process
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mendaftar...';
+            submitButton.disabled = true;
+            
+            setTimeout(() => {
+                // Store user data
+                localStorage.setItem('userRegistered', 'true');
+                localStorage.setItem('userData', JSON.stringify(formData));
+                localStorage.setItem('authToken', 'demo_token_' + Date.now());
+                
+                isUserRegistered = true;
+                
+                // Close modal
+                const modal = event.target.closest('.modal');
+                const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                bootstrapModal.hide();
+                
+                // Show success message
+                showRegistrationSuccess(formData.fullName);
+                
+                // Enable features
+                enableFeatures();
+                
+                // Update navbar
+                updateNavbarForLoggedInUser(formData.fullName);
+                
+            }, 2000);
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simulate login process
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Masuk...';
+            submitButton.disabled = true;
+            
+            setTimeout(() => {
+                // Store user data
+                localStorage.setItem('userRegistered', 'true');
+                localStorage.setItem('userData', JSON.stringify({
+                    fullName: 'Demo User',
+                    email: email
+                }));
+                localStorage.setItem('authToken', 'demo_token_' + Date.now());
+                
+                isUserRegistered = true;
+                
+                // Close modal
+                const modal = event.target.closest('.modal');
+                const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                bootstrapModal.hide();
+                
+                // Show success message
+                showLoginSuccess();
+                
+                // Enable features
+                enableFeatures();
+                
+                // Update navbar
+                updateNavbarForLoggedInUser('Demo User');
+                
+            }, 1500);
+        }
+
+        function showRegistrationSuccess(name) {
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog">
+                    <div class="modal-content" style="border-radius: 20px; border: none;">
+                        <div class="modal-body text-center" style="padding: 40px 30px;">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                                <i class="fas fa-check" style="color: white; font-size: 2rem;"></i>
+                            </div>
+                            <h4 style="color: #2d3748; margin-bottom: 15px;">Selamat Datang, ${name}! 🎉</h4>
+                            <p style="color: #6c757d; margin-bottom: 20px;">
+                                Akun Anda berhasil dibuat! Sekarang Anda dapat mengakses semua fitur talentahubindo dan melamar pekerjaan impian Anda.
+                            </p>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <button type="button" class="btn btn-gradient px-4" data-bs-dismiss="modal">
+                                    <i class="fas fa-rocket me-2"></i>Mulai Mencari Kerja
+                                </button>
+                                <button onclick="openWhatsApp('welcome')" class="btn btn-success px-4">
+                                    <i class="fab fa-whatsapp me-2"></i>Chat Support
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+            
+            modal.addEventListener('hidden.bs.modal', function() {
+                document.body.removeChild(modal);
+            });
+        }
+
+        function showLoginSuccess() {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                z-index: 9999;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                animation: slideInRight 0.3s ease;
+            `;
+            toast.innerHTML = '<i class="fas fa-check me-2"></i>Berhasil masuk! Selamat datang kembali.';
+            
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+
+        function enableFeatures() {
+            // Remove overlays from job cards
+            const overlays = document.querySelectorAll('.registration-overlay');
+            overlays.forEach(overlay => overlay.remove());
+            
+            const jobCards = document.querySelectorAll('.job-card');
+            jobCards.forEach(card => {
+                card.classList.remove('registration-locked');
+                card.style.opacity = '1';
+            });
+        }
+
+        function updateNavbarForLoggedInUser(name) {
+            const navbarNav = document.querySelector('.navbar-nav');
+            const authButtons = navbarNav.querySelectorAll('.nav-item:nth-last-child(-n+3)');
+            
+            // Remove existing auth buttons
+            authButtons.forEach(button => button.remove());
+            
+            // Add user menu
+            const userMenu = document.createElement('li');
+            userMenu.className = 'nav-item dropdown';
+            userMenu.innerHTML = `
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-user-circle me-2"></i>${name.split(' ')[0]}
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profil</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Lowongan Favorit</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-alt me-2"></i>Lamaran Saya</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Keluar</a></li>
+                </ul>
+            `;
+            
+            navbarNav.appendChild(userMenu);
+        }
+
+        function logout() {
+            localStorage.removeItem('userRegistered');
+            localStorage.removeItem('userData');
+            localStorage.removeItem('authToken');
+            location.reload();
         }
 
         function goToRegistration() {
-            alert('Fitur registrasi akan segera tersedia! Untuk saat ini, silakan hubungi kami melalui WhatsApp untuk mendaftar.');
+            showRegistrationModal();
         }
 
         function showCompanyRegistrationModal() {
@@ -2054,6 +2576,17 @@
             initializeAnimations();
             initializeCounters();
             initializeNavbar();
+            
+            // Check if user is registered
+            checkRegistrationStatus();
+            
+            // If user is already registered, update navbar
+            if (isUserRegistered) {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                if (userData.fullName) {
+                    updateNavbarForLoggedInUser(userData.fullName);
+                }
+            }
         });
 
         // Auto refresh every 30 seconds for demo
@@ -2120,5 +2653,5 @@
             elements.forEach(element => observer.observe(element));
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977b33b4b1e6fcdf',t:'MTc1NjYyOTQwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97834ab30721fd10',t:'MTc1NjcxNDIzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
